@@ -7,3 +7,7 @@
 /dataSources/
 /dataSources.local.xml
 .idea
+target
+/.idea/
+/Zadanie_1/00_FirstJava/.idea/
+/Zadanie_1/00_FirstJava/target/
