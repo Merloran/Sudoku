@@ -9,7 +9,7 @@ class SudokuBoardTest {
     @Test
     void testFillBoardRandomness() {
         SudokuBoard instance1 = new SudokuBoard();
-        instance1.fillBoard();
+        instance1.solveGame();
 
         StringBuilder result1 = new StringBuilder();
         for(int row = 0; row < 9; row++) {
@@ -18,7 +18,7 @@ class SudokuBoardTest {
             }
         }
 
-        instance1.fillBoard();
+        instance1.solveGame();
         StringBuilder result2 = new StringBuilder();
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
@@ -32,7 +32,7 @@ class SudokuBoardTest {
     @Test
     void testFillBoardCorrectness() {
         SudokuBoard instance = new SudokuBoard();
-        instance.fillBoard();
+        instance.solveGame();
         int[] values = new int[9];
 
         //Sprawdzenie poprawności w wierszach

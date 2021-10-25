@@ -7,12 +7,37 @@
     <version>2.0</version>
     <packaging>jar</packaging>
 
+    <developers>
+        <developer>
+            <id>236628</id>
+            <name>Maciej Poncyleusz</name>
+            <email>236628@edu.p.lodz.pl</email>
+        </developer>
+        <developer>
+            <id>236704</id>
+            <name>Maciej Wójcik</name>
+            <email>228892@edu.p.lodz.pl</email>
+        </developer>
+    </developers>
+
+    <description>Projekt grupy laboratoryjnej JM_SR_1345_07</description>
+
     <name>00_${project.artifactId}-${project.version}</name>
 
     <url>http://maven.apache.org</url>
     
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.15.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
