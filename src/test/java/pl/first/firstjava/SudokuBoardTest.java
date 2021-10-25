@@ -26,14 +26,14 @@ class SudokuBoardTest {
             }
         }
 
-        assertNotEquals(result1, result2);
+        assertNotEquals(result1.toString(), result2.toString());
     }
 
     @Test
     void testFillBoardCorrectness() {
         SudokuBoard instance = new SudokuBoard();
         instance.fillBoard();
-        int[] values = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] values = new int[9];
 
         //Sprawdzenie poprawności w wierszach
         for(int x = 0; x < 9; x++) {
@@ -45,7 +45,7 @@ class SudokuBoardTest {
             }
         }
 
-        values = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        values = new int[9];
 
         //Sprawdzenie poprawności w kolumnach
         for(int x = 0; x < 9; x++) {
@@ -57,7 +57,7 @@ class SudokuBoardTest {
             }
         }
 
-        values = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        values = new int[9];
 
         //Sprawdzenie poprawności w blokach 3x3
         for(int x = 0; x < 3; x++) {
@@ -65,6 +65,7 @@ class SudokuBoardTest {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         values[instance.getBoardValue(i + 3 * x, j + 3 * y ) - 1]++;
+                        assertTrue(instance.getBoardValue(i + 3 * x, j + 3 * y ) > 0 && instance.getBoardValue(i + 3 * x, j + 3 * y ) < 10);
                     }
                 }
                 for(int i : values) {
