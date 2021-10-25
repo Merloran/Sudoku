@@ -73,7 +73,7 @@ public class SudokuBoard {
         return true;
     }
 
-    public int getBoardValue(int row, int col) {
-        return board[row][col];
+    public int get(int x, int y) {
+        return board[x][y];
     }
 }

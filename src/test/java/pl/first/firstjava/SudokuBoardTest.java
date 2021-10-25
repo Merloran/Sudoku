@@ -14,7 +14,7 @@ class SudokuBoardTest {
         StringBuilder result1 = new StringBuilder();
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
-                result1.append(instance1.getBoardValue(row, col));
+                result1.append(instance1.get(row, col));
             }
         }
 
@@ -22,7 +22,7 @@ class SudokuBoardTest {
         StringBuilder result2 = new StringBuilder();
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
-                result2.append(instance1.getBoardValue(row, col));
+                result2.append(instance1.get(row, col));
             }
         }
 
@@ -38,7 +38,7 @@ class SudokuBoardTest {
         //Sprawdzenie poprawności w wierszach
         for(int x = 0; x < 9; x++) {
             for(int y = 0; y < 9; y++) {
-                values[instance.getBoardValue(x, y) - 1]++;
+                values[instance.get(x, y) - 1]++;
             }
             for(int i : values) {
                 assertEquals(i, x + 1);
@@ -50,7 +50,7 @@ class SudokuBoardTest {
         //Sprawdzenie poprawności w kolumnach
         for(int x = 0; x < 9; x++) {
             for(int y = 0; y < 9; y++) {
-                values[instance.getBoardValue(y, x) - 1]++;
+                values[instance.get(y, x) - 1]++;
             }
             for(int i : values) {
                 assertEquals(i, x + 1);
@@ -64,8 +64,8 @@ class SudokuBoardTest {
             for(int y = 0; y < 3; y++) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        values[instance.getBoardValue(i + 3 * x, j + 3 * y ) - 1]++;
-                        assertTrue(instance.getBoardValue(i + 3 * x, j + 3 * y ) > 0 && instance.getBoardValue(i + 3 * x, j + 3 * y ) < 10);
+                        values[instance.get(i + 3 * x, j + 3 * y ) - 1]++;
+                        assertTrue(instance.get(i + 3 * x, j + 3 * y ) > 0 && instance.get(i + 3 * x, j + 3 * y ) < 10);
                     }
                 }
                 for(int i : values) {
