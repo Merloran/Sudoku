@@ -7,7 +7,7 @@ package pl.first.firstjava;
  */
 public class App {
 
-    final int a_Pole = 1;
+    //final int a_Pole = 1;
 
     public static void main(final String[] args) {
         Greeter greeter = new Greeter();
