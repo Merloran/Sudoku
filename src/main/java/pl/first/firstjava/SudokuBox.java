@@ -19,4 +19,15 @@ public class SudokuBox {
         return true;
     }
 
+    public void setBox(int x, int y, SudokuField field) {
+        if (x < 0 || x > 2) {
+            return;
+        }
+        if (y < 0 || y > 2) {
+            return;
+        }
+
+        box[x * 3 + y] = field;
+    }
+
 }

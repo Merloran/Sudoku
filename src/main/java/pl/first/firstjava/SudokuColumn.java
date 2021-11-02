@@ -18,4 +18,12 @@ public class SudokuColumn {
         }
         return true;
     }
+
+    public void setColumn(int x, SudokuField field) {
+        if (x < 0 || x > 8) {
+            return;
+        }
+
+        column[x] = field;
+    }
 }

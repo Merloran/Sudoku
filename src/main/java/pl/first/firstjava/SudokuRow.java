@@ -2,6 +2,7 @@ package pl.first.firstjava;
 
 public class SudokuRow {
     private SudokuField[] row = new SudokuField[9];
+
     public boolean verify() {
         int[] values = new int[9];
         for (int x = 0; x < 9; x++) {
@@ -18,5 +19,11 @@ public class SudokuRow {
         return true;
     }
 
+    public void setRow(int x, SudokuField field) {
+        if (x < 0 || x > 8) {
+            return;
+        }
 
+        row[x] = field;
+    }
 }

@@ -8,27 +8,6 @@ class SudokuBoardTest {
     private SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
 
     @Test
-    public void testCheckBoard() {
-        assertFalse(board.checkBoard());
-
-        board.solveGame();
-        board.set(0,0,1);
-        board.set(0,1,1);
-        assertFalse(board.checkBoard());
-
-        board.solveGame();
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                board.set(x, y, y + 1);
-            }
-        }
-        assertFalse(board.checkBoard());
-
-        board.solveGame();
-        assertTrue(board.checkBoard());
-    }
-
-    @Test
     public void testSolveGame() {
         board.solveGame();
 
@@ -72,8 +51,6 @@ class SudokuBoardTest {
                 }
             }
         }
-
-        assertTrue(board.checkBoard());
     }
 
     @Test

@@ -2,11 +2,43 @@ package pl.first.firstjava;
 
 
 public class SudokuBoard {
-    private int[][] board;
+    private SudokuField[] board = new SudokuField[81];
     private SudokuSolver solver;
+    private SudokuRow[] rows = new SudokuRow[9];
+    private SudokuColumn[] columns = new SudokuColumn[9];
+    private SudokuBox[][] boxes = new SudokuBox[3][3];
 
     public SudokuBoard(SudokuSolver solver) {
-        board = new int[9][9];
+        for (int x = 0; x < 81; x++) {
+            board[x] = new SudokuField();
+        }
+
+
+        for (int x = 0; x < 9; x++) {
+            rows[x] = new SudokuRow();
+            columns[x] = new SudokuColumn();
+            boxes[x / 3][x % 3] = new SudokuBox();
+            for (int y = 0; y < 9; y++) {
+                rows[x].setRow(y, board[x * 9 + y]);
+            }
+        }
+
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                columns[y].setColumn(x, board[x * 9 + y]);
+            }
+        }
+
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        boxes[x][y].setBox(i, j, board[i * 9 + j + y * 3 + x * 27]);
+                    }
+                }
+            }
+        }
+
         this.solver = solver;
     }
 
@@ -14,52 +46,23 @@ public class SudokuBoard {
         solver.solve(this);
     }
 
-    public boolean checkBoard() {
-        int[] values = new int[9];
-
-        //Sprawdzenie poprawności w wierszach
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                if (board[x][y] == 0) {
-                    return false;
-                }
-                values[board[x][y] - 1]++;
-            }
-            for (int i : values) {
-                if (i != x + 1) {
-                    return false;
-                }
+    private boolean checkBoard() {
+        for (SudokuRow i : rows) {
+            if (!i.verify()) {
+                return false;
             }
         }
 
-        values = new int[9];
-
-        //Sprawdzenie poprawności w kolumnach
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                values[board[y][x] - 1]++;
-            }
-            for (int i : values) {
-                if (i != x + 1) {
-                    return false;
-                }
+        for (SudokuColumn i : columns) {
+            if (!i.verify()) {
+                return false;
             }
         }
 
-        values = new int[9];
-
-        //Sprawdzenie poprawności w blokach 3x3
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        values[board[i + 3 * x][j + 3 * y] - 1]++;
-                    }
-                }
-                for (int i : values) {
-                    if (i != x * 3 + y + 1) {
-                        return false;
-                    }
+                if (!boxes[x][y].verify()) {
+                    return false;
                 }
             }
         }
@@ -71,16 +74,26 @@ public class SudokuBoard {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             return -1;
         }
-        return board[x][y];
+        return board[x * 9 + y].getFieldValue();
     }
 
     public void set(int x, int y, int value) {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             return;
         }
-        if (value < 0 || value > 9) {
-            return;
-        }
-        board[x][y] = value;
+        board[x * 9 + y].setFieldValue(value);
     }
+
+    public SudokuRow getRow(int y) {
+        return rows[y];
+    }
+
+    public SudokuColumn getColumn(int x) {
+        return columns[x];
+    }
+
+    public SudokuBox getBox(int x, int y) {
+        return boxes[x][y];
+    }
+
 }
