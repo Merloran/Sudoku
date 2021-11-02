@@ -69,4 +69,21 @@ class SudokuBoardTest {
         board.set(-1, 0, 1);
         assertEquals(board.get(-1,0),-1);
     }
+
+    @Test
+    void testGetRow() {
+        assertEquals(board.getRow(9), null);
+    }
+
+    @Test
+    void testGetColumn() {
+        assertEquals(board.getColumn(9), null);
+    }
+
+    @Test
+    void testGetBox() {
+        assertEquals(board.getBox(3,0), null);
+        assertEquals(board.getBox(0,3), null);
+    }
+
 }

@@ -85,14 +85,20 @@ public class SudokuBoard {
     }
 
     public SudokuRow getRow(int y) {
+        if (y < 0 || y > 8)
+            return null;
         return rows[y];
     }
 
     public SudokuColumn getColumn(int x) {
+        if (x < 0 || x > 8)
+            return null;
         return columns[x];
     }
 
     public SudokuBox getBox(int x, int y) {
+        if (x < 0 || x > 2 || y < 0 || y > 2)
+            return null;
         return boxes[x][y];
     }
 
