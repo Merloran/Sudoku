@@ -54,7 +54,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testGet() {
+    public void testGet() {
         assertEquals(board.get(-1,0),-1);
         assertEquals(board.get(9,0),-1);
         assertEquals(board.get(0,-1),-1);
@@ -64,7 +64,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testSet() {
+    public void testSet() {
         board.set(0, 0, 1);
         board.set(-1, 0, 2);
         board.set(9, 0, 4);
@@ -74,25 +74,38 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testGetRow() {
+    public void testGetRow() {
         assertNull(board.getRow(9));
         assertNull(board.getRow(-1));
     }
 
     @Test
-    void testGetColumn() {
+    public void testGetColumn() {
         assertNull(board.getColumn(9));
         assertNull(board.getColumn(-1));
     }
 
     @Test
-    void testGetBox() {
+    public void testGetBox() {
         assertNull(board.getBox(3, 0));
         assertNull(board.getBox(0, 3));
         assertNull(board.getBox(-1, 0));
         assertNull(board.getBox(0, -1));
         assertNotNull(board.getBox(0,2));
+    }
 
+    @Test
+    public void testUpdate() {
+        board.solveGame();
+        board.getBox(0,0).setField(1, 1, false);
+        board.getBox(0,0).setField(2, 1, false);
+        board.getBox(1,1).setField(2, board.getBox(1,1).getField(2), true);
+        assertFalse(board.isChecked());
+        board.solveGame();
+        board.getColumn(0).setField(1, 1, false);
+        board.getColumn(0).setField(2, 1, false);
+        board.getColumn(1).setField(2, board.getColumn(1).getField(2), true);
+        assertFalse(board.isChecked());
     }
 
 }

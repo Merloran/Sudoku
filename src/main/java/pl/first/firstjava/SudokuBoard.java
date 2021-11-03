@@ -1,12 +1,13 @@
 package pl.first.firstjava;
 
 
-public class SudokuBoard {
+public class SudokuBoard implements Observer {
     private SudokuField[] board = new SudokuField[81];
     private SudokuSolver solver;
     private SudokuRow[] rows = new SudokuRow[9];
     private SudokuColumn[] columns = new SudokuColumn[9];
     private SudokuBox[] boxes = new SudokuBox[9];
+    private boolean checked = false;
 
     public SudokuBoard(SudokuSolver solver) {
         for (int x = 0; x < 81; x++) {
@@ -15,16 +16,19 @@ public class SudokuBoard {
 
         for (int x = 0; x < 9; x++) {
             rows[x] = new SudokuRow();
+            rows[x].setObserver(this);
             columns[x] = new SudokuColumn();
+            columns[x].setObserver(this);
             boxes[x] = new SudokuBox();
+            boxes[x].setObserver(this);
             for (int y = 0; y < 9; y++) {
-                rows[x].setField(y, board[x * 9 + y].getFieldValue());
+                rows[x].setField(y, board[x * 9 + y].getFieldValue(), false);
             }
         }
 
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                columns[y].setField(x, board[x * 9 + y].getFieldValue());
+                columns[y].setField(x, board[x * 9 + y].getFieldValue(), false);
             }
         }
 
@@ -33,7 +37,7 @@ public class SudokuBoard {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         boxes[x * 3 + y].setField(i * 3 + j,
-                                board[i * 9 + j + y * 3 + x * 27].getFieldValue());
+                                board[i * 9 + j + y * 3 + x * 27].getFieldValue(), false);
                     }
                 }
             }
@@ -44,32 +48,7 @@ public class SudokuBoard {
 
     public void solveGame() {
         solver.solve(this);
-
-        for (int x = 0; x < 9; x++) {
-            rows[x] = new SudokuRow();
-            columns[x] = new SudokuColumn();
-            boxes[x] = new SudokuBox();
-            for (int y = 0; y < 9; y++) {
-                rows[x].setField(y, board[x * 9 + y].getFieldValue());
-            }
-        }
-
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                columns[y].setField(x, board[x * 9 + y].getFieldValue());
-            }
-        }
-
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0, index; j < 3; j++) {
-                        index = i * 9 + j + y * 3 + x * 27;
-                        boxes[x * 3 + y].setField(i * 3 + j, board[index].getFieldValue());
-                    }
-                }
-            }
-        }
+        checked = checkBoard();
     }
 
     private boolean checkBoard() {
@@ -106,10 +85,16 @@ public class SudokuBoard {
             return;
         }
         board[x * 9 + y].setFieldValue(value);
-        rows[x].setField(y, value);
-        columns[y].setField(x, value);
-        boxes[(x - x % 3) + (y - y % 3) / 3].setField((x % 3) * 3 + y % 3, value);
-        //checkBoard();
+        if (rows[x].getField(y) != value) {
+            rows[x].setField(y, value, false);
+        }
+        if (columns[y].getField(x) != value) {
+            columns[y].setField(x, value, false);
+        }
+        int i = (x - x % 3) + (y - y % 3) / 3;
+        if (boxes[i].getField((x % 3) * 3 + y % 3) != value) {
+            boxes[i].setField((x % 3) * 3 + y % 3, value, false);
+        }
     }
 
     public SudokuRow getRow(int y) {
@@ -133,4 +118,30 @@ public class SudokuBoard {
         return boxes[x * 3 + y];
     }
 
+    @Override
+    public void update(Observable observable, int x) {
+        for (int i = 0; i < 9; i++) {
+            if (columns[i] == observable) {
+                set(x, i, columns[i].getField(x));
+                break;
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if (rows[i] == observable) {
+                set(x, i, columns[i].getField(x));
+                break;
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if (boxes[i] == observable) {
+                set(i - i % 3 + x / 3, (i % 3) * 3 + x % 3, boxes[i].getField(x));
+                break;
+            }
+        }
+        checked = checkBoard();
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
 }

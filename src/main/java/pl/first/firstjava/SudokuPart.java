@@ -1,7 +1,8 @@
 package pl.first.firstjava;
 
-public class SudokuPart {
+public class SudokuPart implements Observable {
     private SudokuField[] fields = new SudokuField[9];
+    private Observer observer;
 
     SudokuPart() {
         for (int i = 0; i < 9; i++) {
@@ -25,12 +26,31 @@ public class SudokuPart {
         return true;
     }
 
-
-    public void setField(int x, int value) {
+    public void setField(int x, int value, boolean notify) {
         if (x < 0 || x > 8) {
             return;
         }
-
         fields[x].setFieldValue(value);
+        if (notify) {
+            notifyObservers(x);
+        }
+    }
+
+    public int getField(int x) {
+        if (x < 0 || x > 8) {
+            return -1;
+        }
+        return fields[x].getFieldValue();
+    }
+
+    @Override
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+
+    @Override
+    public void notifyObservers(int x) {
+        observer.update(this, x);
     }
 }
