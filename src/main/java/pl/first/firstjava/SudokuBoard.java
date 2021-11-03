@@ -6,7 +6,7 @@ public class SudokuBoard {
     private SudokuSolver solver;
     private SudokuRow[] rows = new SudokuRow[9];
     private SudokuColumn[] columns = new SudokuColumn[9];
-    private SudokuBox[][] boxes = new SudokuBox[3][3];
+    private SudokuBox[] boxes = new SudokuBox[9];
 
     public SudokuBoard(SudokuSolver solver) {
         for (int x = 0; x < 81; x++) {
@@ -16,7 +16,7 @@ public class SudokuBoard {
         for (int x = 0; x < 9; x++) {
             rows[x] = new SudokuRow();
             columns[x] = new SudokuColumn();
-            boxes[x / 3][x % 3] = new SudokuBox();
+            boxes[x] = new SudokuBox();
             for (int y = 0; y < 9; y++) {
                 rows[x].setField(y, board[x * 9 + y].getFieldValue());
             }
@@ -32,7 +32,7 @@ public class SudokuBoard {
             for (int y = 0; y < 3; y++) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        boxes[x][y].setField(i * 3 + j,
+                        boxes[x * 3 + y].setField(i * 3 + j,
                                 board[i * 9 + j + y * 3 + x * 27].getFieldValue());
                     }
                 }
@@ -48,7 +48,7 @@ public class SudokuBoard {
         for (int x = 0; x < 9; x++) {
             rows[x] = new SudokuRow();
             columns[x] = new SudokuColumn();
-            boxes[x / 3][x % 3] = new SudokuBox();
+            boxes[x] = new SudokuBox();
             for (int y = 0; y < 9; y++) {
                 rows[x].setField(y, board[x * 9 + y].getFieldValue());
             }
@@ -65,7 +65,7 @@ public class SudokuBoard {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0, index; j < 3; j++) {
                         index = i * 9 + j + y * 3 + x * 27;
-                        boxes[x][y].setField(i * 3 + j, board[index].getFieldValue());
+                        boxes[x * 3 + y].setField(i * 3 + j, board[index].getFieldValue());
                     }
                 }
             }
@@ -85,11 +85,9 @@ public class SudokuBoard {
             }
         }
 
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                if (!boxes[x][y].verify()) {
-                    return false;
-                }
+        for (SudokuBox i : boxes) {
+            if (!i.verify()) {
+                return false;
             }
         }
 
@@ -108,7 +106,10 @@ public class SudokuBoard {
             return;
         }
         board[x * 9 + y].setFieldValue(value);
-        checkBoard();
+        rows[x].setField(y, value);
+        columns[y].setField(x, value);
+        boxes[(x - x % 3) + (y - y % 3) / 3].setField((x % 3) * 3 + y % 3, value);
+        //checkBoard();
     }
 
     public SudokuRow getRow(int y) {
@@ -129,7 +130,7 @@ public class SudokuBoard {
         if (x < 0 || x > 2 || y < 0 || y > 2) {
             return null;
         }
-        return boxes[x][y];
+        return boxes[x * 3 + y];
     }
 
 }

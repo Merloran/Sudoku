@@ -1,7 +1,7 @@
 package pl.first.firstjava;
 
 public class SudokuField {
-    int value;
+    private int value;
 
     public int getFieldValue() {
         return value;
