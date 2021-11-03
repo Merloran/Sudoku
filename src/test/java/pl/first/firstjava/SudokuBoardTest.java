@@ -56,6 +56,9 @@ class SudokuBoardTest {
     @Test
     void testGet() {
         assertEquals(board.get(-1,0),-1);
+        assertEquals(board.get(9,0),-1);
+        assertEquals(board.get(0,-1),-1);
+        assertEquals(board.get(0,9),-1);
         board.set(0, 0, 1);
         assertEquals(board.get(0,0),1);
     }
@@ -63,27 +66,33 @@ class SudokuBoardTest {
     @Test
     void testSet() {
         board.set(0, 0, 1);
-        assertEquals(board.get(0,0),1);
-        board.set(0, 0, 100);
-        assertEquals(board.get(0,0),1);
-        board.set(-1, 0, 1);
-        assertEquals(board.get(-1,0),-1);
+        board.set(-1, 0, 2);
+        board.set(9, 0, 4);
+        board.set(0, -1, 5);
+        board.set(0, 9, 6);
+        assertEquals(board.get(0,0), 1);
     }
 
     @Test
     void testGetRow() {
-        assertEquals(board.getRow(9), null);
+        assertNull(board.getRow(9));
+        assertNull(board.getRow(-1));
     }
 
     @Test
     void testGetColumn() {
-        assertEquals(board.getColumn(9), null);
+        assertNull(board.getColumn(9));
+        assertNull(board.getColumn(-1));
     }
 
     @Test
     void testGetBox() {
-        assertEquals(board.getBox(3,0), null);
-        assertEquals(board.getBox(0,3), null);
+        assertNull(board.getBox(3, 0));
+        assertNull(board.getBox(0, 3));
+        assertNull(board.getBox(-1, 0));
+        assertNull(board.getBox(0, -1));
+        assertNotNull(board.getBox(0,2));
+
     }
 
 }
