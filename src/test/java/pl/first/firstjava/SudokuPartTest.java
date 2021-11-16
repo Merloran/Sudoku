@@ -11,8 +11,8 @@ class SudokuPartTest {
     public void testVerify() {
         assertFalse(board.getColumn(1).verify());
         board.solveGame();
-        board.getColumn(1).setField(1, 1);
-        board.getColumn(1).setField(2, 1);
+        board.getColumn(1).setField(1, 1, true);
+        board.getColumn(1).setField(2, 1, true);
         assertFalse(board.getColumn(1).verify());
         board.solveGame();
         assertTrue(board.getColumn(1).verify());
@@ -20,9 +20,15 @@ class SudokuPartTest {
 
     @Test
     public void testSet() {
-        board.getRow(1).setField(1, 1);
-        board.getRow(1).setField(9, 1);
-        board.getRow(1).setField(-1, 1);
+        board.getRow(1).setField(1, 1, true);
+        board.getRow(1).setField(9, 1, true);
+        board.getRow(1).setField(-1, 1, true);
+    }
+
+    @Test
+    public void testGet() {
+        assertEquals(board.getRow(0).getField(-1), -1);
+        assertEquals(board.getRow(0).getField(10), -1);
     }
 
 }
