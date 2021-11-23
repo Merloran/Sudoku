@@ -23,6 +23,9 @@ package pl.first.firstjava;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SudokuBoard implements Observer {
     private SudokuField[] board = new SudokuField[81];
@@ -121,5 +124,34 @@ public class SudokuBoard implements Observer {
     @Override
     public void update(Observable observable) {
         checkBoard();
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder result = new ToStringBuilder(this);
+        for (int i = 0; i < 81; i++) {
+            result.append(board[i].getFieldValue());
+        }
+        return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof SudokuBoard)) {
+            return false;
+        }
+
+        SudokuBoard board1 = (SudokuBoard) o;
+
+        return new EqualsBuilder().append(board, board1.board).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(board).toHashCode();
     }
 }

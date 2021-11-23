@@ -20,6 +20,9 @@
 
 package pl.first.firstjava;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class SudokuField implements Observable {
     private int value;
     private Observer observer;
@@ -46,5 +49,31 @@ public class SudokuField implements Observable {
     @Override
     public void notifyObservers() {
         observer.update(this);
+    }
+
+    @Override
+    public String toString() {
+        return "SudokuField{" + "value=" + value + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof SudokuField)) {
+            return false;
+        }
+
+        SudokuField field = (SudokuField) o;
+
+        return new EqualsBuilder().append(value, field.value)
+                .append(observer, field.observer).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(value).append(observer).toHashCode();
     }
 }

@@ -20,6 +20,10 @@
 
 package pl.first.firstjava;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class SudokuPart {
     private SudokuField[] fields = new SudokuField[9];
 
@@ -49,5 +53,34 @@ public class SudokuPart {
             return;
         }
         fields[x] = field;
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder result = new ToStringBuilder(this);
+        for (int i = 0; i < 9; i++) {
+            result.append(fields[i].getFieldValue());
+        }
+        return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof SudokuPart)) {
+            return false;
+        }
+
+        SudokuPart that = (SudokuPart) o;
+
+        return new EqualsBuilder().append(fields, that.fields).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(fields).toHashCode();
     }
 }
