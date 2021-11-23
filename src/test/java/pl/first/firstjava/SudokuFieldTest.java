@@ -44,9 +44,17 @@ class SudokuFieldTest {
         SudokuField field2 = new SudokuField();
         field1.setFieldValue(2,false);
         field2.setFieldValue(2,false);
-        assertEquals(true,field1.equals(field2));
+        assertEquals(field1, field2);
         field2.setFieldValue(3,false);
-        assertEquals(false, field1.equals(field2));
+        assertNotEquals(field1, field2);
+        assertEquals(field1, field1);
+        assertNotEquals(field1, new SudokuRow());
+    }
+
+    @Test
+    public void testToString() {
+        SudokuField field1 = new SudokuField();
+        assertEquals(field1.toString(), "pl.first.firstjava.SudokuField@" + Integer.toHexString(System.identityHashCode(field1)) + "[value=0]");
     }
 
     @Test
@@ -55,9 +63,9 @@ class SudokuFieldTest {
         SudokuField field2 = new SudokuField();
         field1.setFieldValue(2,false);
         field2.setFieldValue(2,false);
-        assertTrue(field1.hashCode() == field2.hashCode());
+        assertEquals(field1.hashCode(), field2.hashCode());
         field2.setFieldValue(3,false);
-        assertTrue(field1.hashCode() != field2.hashCode());
+        assertNotEquals(field1.hashCode(), field2.hashCode());
     }
 
 }

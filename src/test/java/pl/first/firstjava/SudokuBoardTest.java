@@ -126,16 +126,27 @@ class SudokuBoardTest {
 
     @Test
     public void testEquals(){
-
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertEquals(board1, board2);
+        board2.set(1,1,1,false);
+        assertNotEquals(board1, board2);
+        assertEquals(board1, board1);
+        assertNotEquals(board1, new SudokuRow());
     }
 
     @Test
     public void testToString() {
-
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertEquals(board1.toString(), "pl.first.firstjava.SudokuBoard@" + Integer.toHexString(System.identityHashCode(board1)) + "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
     }
 
     @Test
     public void testHashCode() {
-
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertEquals(board1.hashCode(), board2.hashCode());
+        board2.set(1,1,1, false);
+        assertNotEquals(board1.hashCode(), board2.hashCode());
     }
 }
