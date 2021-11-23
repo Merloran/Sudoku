@@ -30,11 +30,11 @@ class SudokuFieldTest {
     @Test
     public void testSet() {
         assertEquals(field.getFieldValue(), 0);
-        field.setFieldValue(-1);
+        field.setFieldValue(-1, false);
         assertEquals(field.getFieldValue(), 0);
-        field.setFieldValue(10);
+        field.setFieldValue(10,false);
         assertEquals(field.getFieldValue(), 0);
-        field.setFieldValue(1);
+        field.setFieldValue(1, false);
         assertEquals(field.getFieldValue(), 1);
     }
 

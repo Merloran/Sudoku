@@ -79,18 +79,19 @@ class SudokuBoardTest {
         assertEquals(board.get(9,0),-1);
         assertEquals(board.get(0,-1),-1);
         assertEquals(board.get(0,9),-1);
-        board.set(0, 0, 1);
+        board.set(0, 0, 1, false);
         assertEquals(board.get(0,0),1);
     }
 
     @Test
     public void testSet() {
-        board.set(0, 0, 1);
-        board.set(-1, 0, 2);
-        board.set(9, 0, 4);
-        board.set(0, -1, 5);
-        board.set(0, 9, 6);
+        board.set(0, 0, 1, false);
+        board.set(-1, 0, 2, false);
+        board.set(9, 0, 4, false);
+        board.set(0, -1, 5, false);
+        board.set(0, 9, 6, false);
         assertEquals(board.get(0,0), 1);
+        board.set(1, 2, 3, true);
     }
 
     @Test
@@ -116,16 +117,11 @@ class SudokuBoardTest {
 
     @Test
     public void testUpdate() {
-        board.solveGame();
-        board.getBox(0,0).setField(1, 1, false);
-        board.getBox(0,0).setField(2, 1, false);
-        board.getBox(1,1).setField(2, board.getBox(1,1).getField(2), true);
-        assertFalse(board.isChecked());
-        board.solveGame();
-        board.getColumn(0).setField(1, 1, false);
-        board.getColumn(0).setField(2, 1, false);
-        board.getColumn(1).setField(2, board.getColumn(1).getField(2), true);
-        assertFalse(board.isChecked());
+        board.set(0,0,1, true);
+        board.set(0,1,1, true);
+        board.set(0,1,2, true);
+        board.set(1,0,1, true);
+        board.set(1,0,2, true);
     }
 
 }

@@ -30,64 +30,42 @@ public class SudokuBoard implements Observer {
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
     private List<SudokuColumn> columns = Arrays.asList(new SudokuColumn[9]);
     private List<SudokuBox> boxes = Arrays.asList(new SudokuBox[9]);
-    private boolean checked = false;
 
     public SudokuBoard(SudokuSolver solver) {
         for (int x = 0; x < 81; x++) {
             board[x] = new SudokuField();
+            board[x].setObserver(this);
         }
-
-        for (int x = 0; x < 9; x++) {
-            rows.set(x, new SudokuRow());
-            rows.get(x).setObserver(this);
-            columns.set(x, new SudokuColumn());
-            columns.get(x).setObserver(this);
-            boxes.set(x, new SudokuBox());
-            boxes.get(x).setObserver(this);
-            for (int y = 0; y < 9; y++) {
-                rows.get(x).setField(y, board[x * 9 + y].getFieldValue(), false);
-            }
+        for (int i = 0; i < 9; i++) {
+            rows.set(i, new SudokuRow());
+            columns.set(i, new SudokuColumn());
+            boxes.set(i, new SudokuBox());
         }
-
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                columns.get(y).setField(x, board[x * 9 + y].getFieldValue(), false);
-            }
-        }
-
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        boxes.get(x * 3 + y).setField(i * 3 + j,
-                                board[i * 9 + j + y * 3 + x * 27].getFieldValue(), false);
-                    }
-                }
-            }
-        }
-
         this.solver = solver;
     }
 
     public void solveGame() {
         solver.solve(this);
-        checked = checkBoard();
+        checkBoard();
     }
 
     private boolean checkBoard() {
-        for (SudokuRow i : rows) {
+        for (int x = 0; x < 9; x++) {
+            SudokuPart i = getRow(x);
             if (!i.verify()) {
                 return false;
             }
         }
 
-        for (SudokuColumn i : columns) {
+        for (int x = 0; x < 9; x++) {
+            SudokuPart i = getColumn(x);
             if (!i.verify()) {
                 return false;
             }
         }
 
-        for (SudokuBox i : boxes) {
+        for (int x = 0; x < 9; x++) {
+            SudokuPart i = getBox(x / 3, x % 3);
             if (!i.verify()) {
                 return false;
             }
@@ -103,26 +81,19 @@ public class SudokuBoard implements Observer {
         return board[x * 9 + y].getFieldValue();
     }
 
-    public void set(int x, int y, int value) {
+    public void set(int x, int y, int value, boolean notify) {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             return;
         }
-        board[x * 9 + y].setFieldValue(value);
-        if (rows.get(x).getField(y) != value) {
-            rows.get(x).setField(y, value, false);
-        }
-        if (columns.get(y).getField(x) != value) {
-            columns.get(y).setField(x, value, false);
-        }
-        int i = (x - x % 3) + (y - y % 3) / 3;
-        if (boxes.get(i).getField((x % 3) * 3 + y % 3) != value) {
-            boxes.get(i).setField((x % 3) * 3 + y % 3, value, false);
-        }
+        board[x * 9 + y].setFieldValue(value, notify);
     }
 
     public SudokuRow getRow(int y) {
         if (y < 0 || y > 8) {
             return null;
+        }
+        for (int i = 0; i < 9; i++) {
+            rows.get(y).setField(i, board[y * 9 + i]);
         }
         return rows.get(y);
     }
@@ -131,6 +102,9 @@ public class SudokuBoard implements Observer {
         if (x < 0 || x > 8) {
             return null;
         }
+        for (int i = 0; i < 9; i++) {
+            columns.get(x).setField(i, board[x + i * 9]);
+        }
         return columns.get(x);
     }
 
@@ -138,33 +112,14 @@ public class SudokuBoard implements Observer {
         if (x < 0 || x > 2 || y < 0 || y > 2) {
             return null;
         }
+        for (int i = 0; i < 9; i++) {
+            boxes.get(x * 3 + y).setField(i, board[x * 27 + 9 * (i / 3) + y * 3 + y % 3]);
+        }
         return boxes.get(x * 3 + y);
     }
 
     @Override
-    public void update(Observable observable, int x) {
-        for (int i = 0; i < 9; i++) {
-            if (columns.get(i) == observable) {
-                set(x, i, columns.get(i).getField(x));
-                break;
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            if (rows.get(i) == observable) {
-                set(x, i, columns.get(i).getField(x));
-                break;
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            if (boxes.get(i) == observable) {
-                set(i - i % 3 + x / 3, (i % 3) * 3 + x % 3, boxes.get(i).getField(x));
-                break;
-            }
-        }
-        checked = checkBoard();
-    }
-
-    public boolean isChecked() {
-        return checked;
+    public void update(Observable observable) {
+        checkBoard();
     }
 }

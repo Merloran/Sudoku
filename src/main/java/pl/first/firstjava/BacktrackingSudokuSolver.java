@@ -29,7 +29,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     public void solve(SudokuBoard board) {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                board.set(x, y, 0);
+                board.set(x, y, 0,false);
             }
         }
         beginRandomFill(board);
@@ -51,14 +51,14 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
                 }
             }
             if (checkGood(col, row, i, board)) {
-                board.set(row, col, i);
+                board.set(row, col, i,false);
                 if (col != 8) {
                     fillBoard(row, col + 1, board);
                 } else {
                     fillBoard(row + 1, 0, board);
                 }
                 if (board.get(8, 8) == 0) {
-                    board.set(row, col, 0);
+                    board.set(row, col, 0,false);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             } else if (board.get(row, col) != 0) {
                 i--;
             } else {
-                board.set(row, col, value);
+                board.set(row, col, value,false);
             }
         }
     }

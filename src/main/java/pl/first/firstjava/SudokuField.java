@@ -20,18 +20,31 @@
 
 package pl.first.firstjava;
 
-public class SudokuField {
+public class SudokuField implements Observable {
     private int value;
+    private Observer observer;
 
     public int getFieldValue() {
         return value;
     }
 
-    public void setFieldValue(int value) {
+    public void setFieldValue(int value, boolean notify) {
         if (value < 0 || value > 9) {
             return;
+        }
+        if (notify) {
+            notifyObservers();
         }
         this.value = value;
     }
 
+    @Override
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+    @Override
+    public void notifyObservers() {
+        observer.update(this);
+    }
 }
