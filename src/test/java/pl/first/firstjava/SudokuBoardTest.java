@@ -124,4 +124,18 @@ class SudokuBoardTest {
         board.set(1,0,2, true);
     }
 
+    @Test
+    public void testEquals(){
+
+    }
+
+    @Test
+    public void testToString() {
+
+    }
+
+    @Test
+    public void testHashCode() {
+
+    }
 }

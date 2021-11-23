@@ -55,4 +55,37 @@ class SudokuPartTest {
         part.verify();
     }
 
+
+    @Test
+    public void testEquals() {
+        SudokuPart part1 = new SudokuPart();
+        SudokuPart part2 = new SudokuPart();
+        SudokuField field1 = new SudokuField();
+        field1.setFieldValue(3,false);
+        part1.setField(1,field1);
+        part2.setField(1,field1);
+        assertEquals(true,part1.equals(part2));
+    }
+
+    @Test
+    public void testToString() {
+       SudokuPart part = new SudokuPart();
+       StringBuilder napis = new StringBuilder();
+       napis.append("pl.first.firstjava.SudokuPart@" + part.hashCode() + "[0,0,0,0,0,0,0,0,0]");
+
+       assertEquals(napis.toString(), part.toString());
+    }
+
+    @Test
+    public void testHashCode(){
+        SudokuPart part1 = new SudokuPart();
+        SudokuPart part2 = new SudokuPart();
+        SudokuField field1 = new SudokuField();
+        field1.setFieldValue(3,false);
+        part1.setField(1,field1);
+        part2.setField(1,field1);
+        assertTrue(part1.hashCode()==part2.hashCode());
+        part2.setField(2,field1);
+        assertTrue(part1.hashCode()!=part2.hashCode());
+    }
 }

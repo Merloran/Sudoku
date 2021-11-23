@@ -31,15 +31,9 @@ public class App {
     //final int a_Pole = 1;
 
     public static void main(final String[] args) {
-        //Greeter greeter = new Greeter();
-        //System.out.println(greeter.greet(args[0]));
-        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuField field = new SudokuField();
-        SudokuField field1 = new SudokuField();
-        field.setObserver(board);
-        field1.setObserver(board);
-        System.out.println(field.equals(field1));
+        Greeter greeter = new Greeter();
+        System.out.println(greeter.greet(args[0]));
     }
 
 
-}*/
+} */

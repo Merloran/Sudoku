@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AppTest {
 
-//    public AppTest() {
+ //  public AppTest() {
 //    }
 //
 //    @Test
@@ -50,6 +50,6 @@ public class AppTest {
 //        String[] params = {"Student"};
 //        App.main(params);
 //
-//    }
+//}
 
 }

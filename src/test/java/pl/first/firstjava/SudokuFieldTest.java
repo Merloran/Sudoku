@@ -38,4 +38,26 @@ class SudokuFieldTest {
         assertEquals(field.getFieldValue(), 1);
     }
 
+    @Test
+    public void testEquals() {
+        SudokuField field1 = new SudokuField();
+        SudokuField field2 = new SudokuField();
+        field1.setFieldValue(2,false);
+        field2.setFieldValue(2,false);
+        assertEquals(true,field1.equals(field2));
+        field2.setFieldValue(3,false);
+        assertEquals(false, field1.equals(field2));
+    }
+
+    @Test
+    public void testHashCode() {
+        SudokuField field1 = new SudokuField();
+        SudokuField field2 = new SudokuField();
+        field1.setFieldValue(2,false);
+        field2.setFieldValue(2,false);
+        assertTrue(field1.hashCode() == field2.hashCode());
+        field2.setFieldValue(3,false);
+        assertTrue(field1.hashCode() != field2.hashCode());
+    }
+
 }
