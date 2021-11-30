@@ -20,11 +20,13 @@
 
 package pl.first.firstjava;
 
+import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuPart {
+
+public class SudokuPart implements Serializable, Cloneable {
     private SudokuField[] fields = new SudokuField[9];
 
     SudokuPart() {
