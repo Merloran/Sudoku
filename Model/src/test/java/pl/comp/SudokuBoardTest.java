@@ -126,30 +126,30 @@ class SudokuBoardTest {
 
     @Test
     public void testEquals() {
-        SudokuPart part1 = new SudokuPart();
-        SudokuPart part2 = new SudokuPart();
-        assertEquals(part1, part2);
-        assertEquals(part1, part1);
-        assertNotEquals(part1, new SudokuField());
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertEquals(board1, board1);
+        assertEquals(board1, board2);
+        assertNotEquals(board1, new SudokuField());
     }
 
     @Test
     public void testToString() {
-        SudokuPart part = new SudokuPart();
-        assertEquals(part.toString(), "pl.comp.SudokuPart@" + Integer.toHexString(System.identityHashCode(part)) + "[0,0,0,0,0,0,0,0,0]");
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        builder.append("0,".repeat(81));
+        builder.deleteCharAt(builder.length() - 1);
+        builder.append("]");
+        assertEquals(board.toString(), "pl.comp.SudokuBoard@" + Integer.toHexString(System.identityHashCode(board)) + builder);
     }
 
     @Test
     public void testHashCode(){
-        SudokuPart part1 = new SudokuPart();
-        SudokuPart part2 = new SudokuPart();
-        SudokuField field1 = new SudokuField();
-        field1.setFieldValue(3,false);
-        part1.setField(1,field1);
-        part2.setField(1,field1);
-        assertEquals(part1, part2);
-        assertEquals(part1.hashCode(), part2.hashCode());
-        part2.setField(2,field1);
-        assertNotEquals(part1.hashCode(),part2.hashCode());
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        assertEquals(board1.hashCode(), board2.hashCode());
+        board1.set(1, 1, 1,false);
+        assertNotEquals(board1.hashCode(),board2.hashCode());
     }
 }
