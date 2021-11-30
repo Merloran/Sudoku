@@ -25,7 +25,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuField implements Observable, Serializable, Cloneable {
+public class SudokuField implements Observable, Serializable {
     private int value;
     private Observer observer;
 

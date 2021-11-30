@@ -26,7 +26,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
-public class SudokuPart implements Serializable, Cloneable {
+public class SudokuPart implements Serializable {
     private SudokuField[] fields = new SudokuField[9];
 
     SudokuPart() {

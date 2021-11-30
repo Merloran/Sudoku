@@ -23,7 +23,7 @@ package pl.first.firstjava;
 import java.io.Serializable;
 import java.util.Random;
 
-public class BacktrackingSudokuSolver implements SudokuSolver, Serializable, Cloneable {
+public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
 
     //Metoda wyzerowująca planszę i wypełniająca planszę losowo
     @Override

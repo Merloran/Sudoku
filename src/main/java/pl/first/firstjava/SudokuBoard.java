@@ -28,7 +28,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuBoard implements Observer, Serializable, Cloneable {
+public class SudokuBoard implements Observer, Serializable {
     private SudokuField[] board = new SudokuField[81];
     private SudokuSolver solver;
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
