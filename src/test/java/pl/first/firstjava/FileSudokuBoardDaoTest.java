@@ -57,7 +57,7 @@ class FileSudokuBoardDaoTest {
     }
 
     @Test
-    void testClose() throws Exception {
+    void testClose() {
         dao.close();
     }
 }
