@@ -29,8 +29,11 @@ class SudokuBoardDaoFactoryTest {
 
     @Test
     void testGetFileDao() {
-        Dao<SudokuBoard> dao = factory.getFileDao("D:\\plik.txt");
-        dao.write(board);
-        assertEquals(dao.read(), board);
+       try ( Dao<SudokuBoard> dao = factory.getFileDao("D:\\plik.txt") ) {
+           dao.write(board);
+           assertEquals(dao.read(), board);
+       } catch (Exception e) {
+           System.out.println("Exception");
+       }
     }
 }

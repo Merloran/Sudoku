@@ -22,16 +22,18 @@ package pl.comp;
 import org.junit.jupiter.api.Test;
 
 class FileSudokuBoardDaoTest {
-
-    FileSudokuBoardDao dao = new FileSudokuBoardDao("D:\\plik.txt");
     SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
 
     @Test
     void testRead() {
-        dao.write(board);
-        dao.read();
-        dao = new FileSudokuBoardDao("ALFA:\\plik");
-        try {
+        try (FileSudokuBoardDao dao = new FileSudokuBoardDao("D:\\plik.txt")) {
+            dao.write(board);
+            dao.read();
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught read");
+        }
+
+        try (FileSudokuBoardDao dao = new FileSudokuBoardDao("ALFA:\\plik")){
             dao.read();
         } catch (RuntimeException e) {
             System.out.println("Exception caught read");
@@ -40,18 +42,17 @@ class FileSudokuBoardDaoTest {
 
     @Test
     void testWrite() {
-        dao.write(board);
-        dao.read();
-        dao = new FileSudokuBoardDao("ALFA:\\plik");
-        try {
+        try (FileSudokuBoardDao dao = new FileSudokuBoardDao("D:\\plik.txt")) {
+            dao.write(board);
+            dao.read();
+        } catch (RuntimeException e) {
+            System.out.println("Exception caught read");
+        }
+
+        try (FileSudokuBoardDao dao = new FileSudokuBoardDao("ALFA:\\plik")){
             dao.write(board);
         } catch (RuntimeException e) {
             System.out.println("Exception caught write");
         }
-    }
-
-    @Test
-    void testClose() {
-        dao.close();
     }
 }
