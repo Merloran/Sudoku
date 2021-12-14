@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    SudokuBoard board;
+    Difficulty difficulty;
 
     @FXML
     private RadioButton rb1;
@@ -40,7 +42,19 @@ public class Controller implements Initializable {
 
     @FXML
     private void handleSubmitButtonAction(ActionEvent event) {
+        board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
+        if (rb1.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.EASY);
+        }
+        if (rb2.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.MEDIUM);
+        }
+        if (rb3.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.HARD);
+        }
 
+        System.out.println(board);
     }
 
     @Override
