@@ -26,7 +26,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
-public class SudokuPart implements Serializable {
+public class SudokuPart implements Serializable, Cloneable {
     private SudokuField[] fields = new SudokuField[9];
 
     SudokuPart() {
@@ -82,5 +82,12 @@ public class SudokuPart implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(fields).toHashCode();
+    }
+
+    @Override
+    public SudokuPart clone() throws CloneNotSupportedException {
+        SudokuPart clone = (SudokuPart) super.clone();
+        clone.fields = (SudokuField[]) this.fields.clone();
+        return clone;
     }
 }

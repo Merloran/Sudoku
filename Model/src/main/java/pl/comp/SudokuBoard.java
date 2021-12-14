@@ -28,7 +28,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuBoard implements Observer, Serializable {
+public class SudokuBoard implements Observer, Serializable, Cloneable {
     private SudokuField[] board = new SudokuField[81];
     private SudokuSolver solver;
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
@@ -154,5 +154,13 @@ public class SudokuBoard implements Observer, Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(board).toHashCode();
+    }
+
+
+    @Override
+    public SudokuBoard clone() throws CloneNotSupportedException {
+        SudokuBoard clone = (SudokuBoard) super.clone();
+        clone.board = (SudokuField[]) this.board.clone();
+        return clone;
     }
 }

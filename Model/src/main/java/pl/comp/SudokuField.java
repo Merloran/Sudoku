@@ -25,7 +25,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuField implements Observable, Serializable {
+public class SudokuField implements Observable, Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
     private Observer observer;
 
@@ -76,5 +76,17 @@ public class SudokuField implements Observable, Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(value).toHashCode();
+    }
+
+    @Override
+    public int compareTo(SudokuField o) throws NullPointerException {
+        return this.value - o.getFieldValue();
+    }
+
+    @Override
+    public SudokuField clone() throws CloneNotSupportedException {
+        SudokuField clone = (SudokuField) super.clone();
+        clone.value = this.value;
+        return clone;
     }
 }
