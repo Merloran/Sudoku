@@ -19,37 +19,21 @@
  */
 package pl.comp;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import org.junit.jupiter.api.Test;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Controller implements Initializable {
+public class CloneableTest{
+    @Test
+    public void testCloneable() throws CloneNotSupportedException {
 
-    @FXML
-    private RadioButton rb1;
-    @FXML
-    private RadioButton rb2;
-    @FXML
-    private RadioButton rb3;
+        SudokuField field1 = new SudokuField();
+        field1.setFieldValue(4,false);
+        SudokuField field2 = (SudokuField) field1.clone();
 
-    @FXML
-    private void handleSubmitButtonAction(ActionEvent event) {
-
+        assertEquals(field1.getFieldValue(),field2.getFieldValue());
+        assertTrue(field1 != field2);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ToggleGroup difficulty = new ToggleGroup();
-
-        rb1.setToggleGroup(difficulty);
-        rb1.setSelected(true);
-        rb2.setToggleGroup(difficulty);
-        rb3.setToggleGroup(difficulty);
-    }
 }
+

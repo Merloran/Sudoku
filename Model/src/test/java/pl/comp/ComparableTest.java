@@ -19,37 +19,23 @@
  */
 package pl.comp;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import org.junit.jupiter.api.Test;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Controller implements Initializable {
+public class ComparableTest {
+    @Test
+    public void  testComparable() {
+        SudokuField field1 = new SudokuField();
+        SudokuField field2 = new SudokuField();
+        SudokuField field3 = new SudokuField();
 
-    @FXML
-    private RadioButton rb1;
-    @FXML
-    private RadioButton rb2;
-    @FXML
-    private RadioButton rb3;
+        field1.setFieldValue(1,false);
+        field2.setFieldValue(4,false);
+        field3.setFieldValue(7,false);
 
-    @FXML
-    private void handleSubmitButtonAction(ActionEvent event) {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ToggleGroup difficulty = new ToggleGroup();
-
-        rb1.setToggleGroup(difficulty);
-        rb1.setSelected(true);
-        rb2.setToggleGroup(difficulty);
-        rb3.setToggleGroup(difficulty);
+        assertEquals(field1.compareTo(field2), -3);
+        assertEquals(field2.compareTo(field2), 0);
+        assertEquals(field3.compareTo(field2), 3);
     }
 }

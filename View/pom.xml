@@ -35,6 +35,18 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17-ea+11</version>
         </dependency>
+        <dependency>
+            <groupId>pl.comp</groupId>
+            <artifactId>ModelProject</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+        <!-- This shouldn't be a dep which is packaging: pom -->
+        <groupId>${project.groupId}</groupId>
+        <artifactId>ModelProject</artifactId>
+        <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

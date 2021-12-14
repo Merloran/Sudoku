@@ -60,6 +60,17 @@ public class SudokuField implements Observable, Serializable, Cloneable, Compara
         return result.toString();
     }
 
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(value).toHashCode();
+    }
+
+    @Override
+    public int compareTo(SudokuField o) throws NullPointerException {
+        return this.value - o.getFieldValue();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -71,16 +82,6 @@ public class SudokuField implements Observable, Serializable, Cloneable, Compara
         }
 
         return new EqualsBuilder().append(value, ((SudokuField) o).value).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(value).toHashCode();
-    }
-
-    @Override
-    public int compareTo(SudokuField o) throws NullPointerException {
-        return this.value - o.getFieldValue();
     }
 
     @Override
