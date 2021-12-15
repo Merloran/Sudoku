@@ -26,6 +26,8 @@ package pl.comp;
 
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuPartTest {
@@ -55,16 +57,18 @@ class SudokuPartTest {
         part.verify();
     }
 
-
     @Test
     public void testEquals() {
         SudokuPart part1 = new SudokuPart();
         SudokuPart part2 = new SudokuPart();
         SudokuField field1 = new SudokuField();
         field1.setFieldValue(3,false);
+        assertNotEquals(part1, null);
+        assertNotEquals(part1, field1);
         part1.setField(1,field1);
         part2.setField(1,field1);
-        assertEquals(true,part1.equals(part2));
+        assertEquals(part1, part2);
+        assertEquals(part1, part1);
     }
 
     @Test
@@ -81,8 +85,20 @@ class SudokuPartTest {
         field1.setFieldValue(3,false);
         part1.setField(1,field1);
         part2.setField(1,field1);
-        assertTrue(part1.hashCode()==part2.hashCode());
+        assertEquals(part1.hashCode(), part2.hashCode());
         part2.setField(2,field1);
-        assertTrue(part1.hashCode()!=part2.hashCode());
+        assertNotEquals(part1.hashCode(), part2.hashCode());
+    }
+
+    @Test
+    public void testCloneable() throws CloneNotSupportedException {
+
+        SudokuPart part1 = new SudokuPart();
+        SudokuPart part2 = part1.clone();
+        assertEquals(part1, part2);
+        SudokuField field = new SudokuField();
+        field.setFieldValue(1, false);
+        part1.setField(1, field);
+        assertNotEquals(part1, part2);
     }
 }

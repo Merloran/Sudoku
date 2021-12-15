@@ -4,7 +4,10 @@ import java.util.Random;
 
 public class Difficulty {
         public enum LEVEL {
-            EASY(0), MEDIUM(1), HARD(2);
+            EASY(0),
+            MEDIUM(1),
+            HARD(2);
+
             int lev;
             LEVEL(int lev) {
                 this.lev = lev;

@@ -1,3 +1,8 @@
 .root {
     -fx-background-color: red;
 }
+
+#startBut {
+    -fx-background-radius: 20;
+}
+

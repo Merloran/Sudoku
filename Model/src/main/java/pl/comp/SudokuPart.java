@@ -71,10 +71,9 @@ public class SudokuPart implements Serializable, Cloneable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SudokuPart)) {
+        if (!(o instanceof SudokuPart that)) {
             return false;
         }
-        SudokuPart that = (SudokuPart) o;
 
         return new EqualsBuilder().append(fields, that.fields).isEquals();
     }
@@ -87,7 +86,7 @@ public class SudokuPart implements Serializable, Cloneable {
     @Override
     public SudokuPart clone() throws CloneNotSupportedException {
         SudokuPart clone = (SudokuPart) super.clone();
-        clone.fields = (SudokuField[]) this.fields.clone();
+        clone.fields = this.fields.clone();
         return clone;
     }
 }

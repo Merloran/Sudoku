@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class App extends Application {
@@ -35,6 +36,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Sudoku");
+        primaryStage.resizableProperty().setValue(false);
 
         Parent root = FXMLLoader.load(getClass().getResource("Form.fxml"));
         Scene scene = new Scene(root, 600, 500);

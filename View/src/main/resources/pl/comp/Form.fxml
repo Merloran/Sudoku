@@ -3,12 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
       xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
    <children>
-      <Button layoutX="233.0" layoutY="168.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="134.0" text="START"
-              onAction="#handleSubmitButtonAction"/>
-      <ChoiceBox fx:id="difficulty" layoutX="225.0" layoutY="274.0" prefWidth="150.0" />
+      <Button fx:id="startBut" layoutX="233.0" layoutY="168.0" mnemonicParsing="false" onAction="#startGame" prefHeight="65.0" prefWidth="134.0" text="START" />
+      <RadioButton fx:id="rb1" layoutX="257.0" layoutY="67.0" mnemonicParsing="false" text="Łatwy" />
+      <RadioButton fx:id="rb2" layoutX="257.0" layoutY="85.0" mnemonicParsing="false" text="Sredni" />
+      <RadioButton fx:id="rb3" layoutX="257.0" layoutY="103.0" mnemonicParsing="false" text="Trudny" />
    </children>
 </Pane>

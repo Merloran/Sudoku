@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
+   <children>
+      <ButtonBar buttonMinWidth="52.5" prefHeight="34.0" prefWidth="573.0">
+        <buttons>
+            <Button mnemonicParsing="false" text="1" />
+            <Button mnemonicParsing="false" text="2" />
+            <Button mnemonicParsing="false" text="3" />
+          <Button mnemonicParsing="false" text="4" />
+            <Button minWidth="28.0" mnemonicParsing="false" prefHeight="10.0" text="5" />
+            <Button mnemonicParsing="false" text="6" />
+            <Button mnemonicParsing="false" text="7" />
+            <Button mnemonicParsing="false" text="8" />
+            <Button mnemonicParsing="false" text="9" />
+        </buttons>
+         <VBox.margin>
+            <Insets right="200.0" />
+         </VBox.margin>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </ButtonBar>
+      <GridPane fx:id="pane">
+         <padding>
+            <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+         </padding>
+      </GridPane>
+      <Pane prefHeight="82.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="274.0" layoutY="27.0" onAction="#backMenu"  mnemonicParsing="false" text="Powrót" />
+         </children>
+      </Pane>
+   </children>
+</VBox>

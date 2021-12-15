@@ -21,35 +21,90 @@ package pl.comp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    private static SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+    private Difficulty difficulty;
 
+    @FXML
+    private GridPane pane;
     @FXML
     private RadioButton rb1;
     @FXML
     private RadioButton rb2;
     @FXML
     private RadioButton rb3;
-
     @FXML
-    private void handleSubmitButtonAction(ActionEvent event) {
+    private void startGame(ActionEvent event) throws IOException {
+        board.solveGame();
 
+        Stage stage = (Stage) rb1.getScene().getWindow();
+        if (rb1.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.EASY);
+        }
+        if (rb2.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.MEDIUM);
+        }
+        if (rb3.isSelected()) {
+            difficulty = new Difficulty(board, Difficulty.LEVEL.HARD);
+        }
+
+        Parent root = FXMLLoader.load(App.class.getResource("Game.fxml"));
+        Scene scene = new Scene(root, 600, 500);
+        scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+        stage.setScene(scene);
+
+        stage.show();
     }
+    @FXML
+    private void backMenu(ActionEvent event) throws IOException {
+        Stage stage = (Stage) pane.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("Form.fxml"));
+        Scene scene = new Scene(root, 600, 500);
+        scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ToggleGroup difficulty = new ToggleGroup();
-
-        rb1.setToggleGroup(difficulty);
-        rb1.setSelected(true);
-        rb2.setToggleGroup(difficulty);
-        rb3.setToggleGroup(difficulty);
+        if(url.equals(App.class.getResource("Form.fxml"))) {
+            ToggleGroup difficulty = new ToggleGroup();
+            rb1.setToggleGroup(difficulty);
+            rb1.setSelected(true);
+            rb2.setToggleGroup(difficulty);
+            rb3.setToggleGroup(difficulty);
+        }
+        if(url.equals(App.class.getResource("Game.fxml"))) {
+            TextField[][] fields = new TextField[9][9];
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    fields[x][y] = new TextField();
+                    fields[x][y].setStyle("-fx-alignment: center;" +
+                                          "-fx-font-weight: bold;" +
+                                          "-fx-font-size: 12pt;" +
+                                          "-fx-font-family: 'Comic Sans MS';");
+                    if (board.get(x, y) != 0) {
+                        fields[x][y].setText(Integer.toString(board.get(x, y)));
+                        fields[x][y].setDisable(true);
+                    }
+                    pane.add(fields[x][y], x, y);
+                }
+            }
+        }
     }
 }

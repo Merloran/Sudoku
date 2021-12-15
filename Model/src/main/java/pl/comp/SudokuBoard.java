@@ -142,11 +142,9 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
             return true;
         }
 
-        if (!(o instanceof SudokuBoard)) {
+        if (!(o instanceof SudokuBoard board1)) {
             return false;
         }
-
-        SudokuBoard board1 = (SudokuBoard) o;
 
         return new EqualsBuilder().append(board, board1.board).isEquals();
     }
@@ -160,7 +158,7 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
     @Override
     public SudokuBoard clone() throws CloneNotSupportedException {
         SudokuBoard clone = (SudokuBoard) super.clone();
-        clone.board = (SudokuField[]) this.board.clone();
+        clone.board = this.board.clone();
         return clone;
     }
 }
