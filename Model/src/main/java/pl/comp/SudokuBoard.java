@@ -24,6 +24,9 @@ package pl.comp;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -120,6 +123,10 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
             boxes.get(x * 3 + y).setField(i, board[x * 27 + 9 * (i / 3) + y * 3 + y % 3]);
         }
         return boxes.get(x * 3 + y);
+    }
+
+    public SimpleIntegerProperty convertField(int x, int y) {
+        return new SimpleIntegerProperty(get(x, y));
     }
 
     @Override

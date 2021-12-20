@@ -39,7 +39,6 @@ public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
 
     //Metoda wypełniająca planszę sudoku
     private void fillBoard(int row, int col, SudokuBoard board) {
-
         for (int i = 1; i < 10; i++) {
             if (board.get(8, 8) != 0) {
                 return;
@@ -50,17 +49,12 @@ public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
                 } else {
                     fillBoard(row + 1, 0, board);
                 }
-            }
-            if (checkGood(col, row, i, board)) {
-                board.set(row, col, i,false);
-                if (col != 8) {
-                    fillBoard(row, col + 1, board);
-                } else {
-                    fillBoard(row + 1, 0, board);
-                }
                 if (board.get(8, 8) == 0) {
                     board.set(row, col, 0,false);
                 }
+            }
+            if (checkGood(col, row, i, board)) {
+                board.set(row, col, i,false);
             }
         }
     }

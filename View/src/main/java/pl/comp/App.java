@@ -25,6 +25,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class App extends Application {
     public static void main(String[] args) {
@@ -36,7 +38,12 @@ public class App extends Application {
         primaryStage.setTitle("Sudoku");
         primaryStage.resizableProperty().setValue(false);
 
-        Parent root = FXMLLoader.load(getClass().getResource("Form.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale("PL"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Form.fxml"));
+        loader.setResources(bundle);
+        Parent root = loader.load();
+
         Scene scene = new Scene(root, 600, 500);
         scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);

@@ -3,12 +3,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
    <children>
-      <Button fx:id="startBut" layoutX="233.0" layoutY="168.0" mnemonicParsing="false" onAction="#startGame" prefHeight="65.0" prefWidth="134.0" text="START" />
-      <RadioButton fx:id="rb1" layoutX="257.0" layoutY="67.0" mnemonicParsing="false" text="Łatwy" />
-      <RadioButton fx:id="rb2" layoutX="257.0" layoutY="85.0" mnemonicParsing="false" text="Sredni" />
-      <RadioButton fx:id="rb3" layoutX="257.0" layoutY="103.0" mnemonicParsing="false" text="Trudny" />
+      <Button fx:id="startBut" layoutX="230.0" layoutY="200.0" mnemonicParsing="false" onAction="#startGame" prefHeight="65.0" prefWidth="134.0" text="%StartButton" />
+      <RadioButton fx:id="rb1" layoutX="260.0" layoutY="67.0" mnemonicParsing="false" text="%RadioEasy" />
+      <RadioButton fx:id="rb2" layoutX="260.0" layoutY="85.0" mnemonicParsing="false" text="%RadioMedium" />
+      <RadioButton fx:id="rb3" layoutX="260.0" layoutY="103.0" mnemonicParsing="false" text="%RadioHard" />
+      <ComboBox fx:id="langBox" onAction="#changeLang" layoutX="500.0" layoutY="14.0" prefHeight="10.0" prefWidth="80.0" >
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <Label text="PL">
+                  <graphic>
+                     <StackPane prefWidth="30">
+                        <ImageView fitHeight="20" preserveRatio="true">
+                           <image>
+                              <Image url="@/pl/comp/pl.jpg" smooth="false" />
+                           </image>
+                        </ImageView>
+                     </StackPane>
+                  </graphic>
+               </Label>
+               <Label text="ENG">
+                  <graphic>
+                     <StackPane prefWidth="30">
+                        <ImageView fitHeight="20" preserveRatio="true">
+                           <image>
+                              <Image url="@/pl/comp/en.jpg" smooth="false" />
+                           </image>
+                        </ImageView>
+                     </StackPane>
+                  </graphic>
+               </Label>
+            </FXCollections>
+         </items>
+      </ComboBox>
    </children>
 </Pane>
