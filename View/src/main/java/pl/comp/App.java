@@ -24,8 +24,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.IOException;
 
 public class App extends Application {
