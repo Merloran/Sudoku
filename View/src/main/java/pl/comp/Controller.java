@@ -29,7 +29,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
@@ -48,6 +50,8 @@ public class Controller implements Initializable {
     private static SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
     private Difficulty difficulty;
     private static String lang;
+    private static Label[][] fields;
+    private Label selectedField;
 
     @FXML
     private GridPane pane;
@@ -134,7 +138,7 @@ public class Controller implements Initializable {
         File selectFile = fileChooser.showSaveDialog(null);
         if(selectFile != null) {
             SudokuBoardDaoFactory daoFactory = new SudokuBoardDaoFactory();
-            Dao<SudokuBoard> file = daoFactory.getFileDao(selectFile.getAbsolutePath() + ".txt");
+            Dao<SudokuBoard> file = daoFactory.getFileDao(selectFile.getAbsolutePath());
             file.write(board);
         }
     }
@@ -161,6 +165,24 @@ public class Controller implements Initializable {
         }
     }
 
+    @FXML
+    private void selectField(int x, int y) {
+        if (selectedField != null) {
+            selectedField.setStyle(selectedField.getStyle() +
+                                   "-fx-background-color: none;");
+        }
+        selectedField = fields[x][y];
+        selectedField.setStyle(selectedField.getStyle() +
+                               "-fx-background-color: white;");
+    }
+
+    @FXML
+    private void fillField(ActionEvent event) {
+        if (selectedField != null) {
+            String tekst = event.getSource().toString();
+            selectedField.setText(Character.toString(tekst.charAt(tekst.length() - 2)));
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -187,18 +209,40 @@ public class Controller implements Initializable {
                 }
             }
         }
+
         if(url.equals(App.class.getResource("Game.fxml"))) {
-            TextField[][] fields = new TextField[9][9];
+            fields = new Label[9][9];
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
-                    fields[x][y] = new TextField();
+                    fields[x][y] = new Label();
                     fields[x][y].setStyle("-fx-alignment: center;" +
                                           "-fx-font-weight: bold;" +
                                           "-fx-font-size: 12pt;" +
                                           "-fx-font-family: 'Comic Sans MS';");
+                    fields[x][y].setTextFill(Color.color(0.25,0,0.80));
+                    fields[x][y].setStyle( fields[x][y].getStyle() +
+                                          "-fx-border-style: solid;" +
+                                          "-fx-border-width: 1px;" +
+                                          "-fx-border-color: black;");
+                    fields[x][y].setPrefSize(35, 35);
+
+                    if((x+1) % 3 == 0 && (y+1) % 3 == 0 && x != 8 && y != 8) {
+                        fields[x][y].setStyle( fields[x][y].getStyle() +
+                                "-fx-border-width: 1px 5px 5px 1px;");
+                    } else if((y+1) % 3 == 0 && y != 8) {
+                        fields[x][y].setStyle( fields[x][y].getStyle() +
+                                              "-fx-border-width: 1px 1px 5px 1px;");
+                    } else if((x+1) % 3 == 0 && x != 8) {
+                        fields[x][y].setStyle( fields[x][y].getStyle() +
+                                              "-fx-border-width: 1px 5px 1px 1px;");
+                    }
                     if (board.get(x, y) != 0) {
-                        fields[x][y].textProperty().bindBidirectional(board.convertField(x,y), new NumberStringConverter());
-                        fields[x][y].setDisable(true);
+                        fields[x][y].textProperty().bindBidirectional(board.convertField(x, y), new NumberStringConverter());
+                    } else {
+                        int finalX = x;
+                        int finalY = y;
+                        fields[x][y].setOnMouseClicked(mouseEvent -> selectField(finalX, finalY));
+                        fields[x][y].setTextFill(Color.color(0.25,1,0.80));
                     }
                     pane.add(fields[x][y], x, y);
                 }

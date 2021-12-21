@@ -24,8 +24,6 @@ package pl.comp;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
