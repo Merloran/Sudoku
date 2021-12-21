@@ -32,7 +32,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.NumberStringConverter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -58,9 +57,10 @@ public class Controller implements Initializable {
     @FXML
     private ComboBox<Label> langBox;
     @FXML
+    private MenuItem saveButton;
+    @FXML
     private void startGame(ActionEvent event) throws IOException {
         board.solveGame();
-
         Stage stage = (Stage) rb1.getScene().getWindow();
         if (rb1.isSelected()) {
             difficulty = new Difficulty(board, Difficulty.LEVEL.EASY);
@@ -78,7 +78,7 @@ public class Controller implements Initializable {
         loader.setResources(bundle);
 
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
 
@@ -101,7 +101,7 @@ public class Controller implements Initializable {
         loader.setResources(bundle);
 
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
@@ -117,7 +117,7 @@ public class Controller implements Initializable {
         loader.setResources(bundle);
 
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
@@ -163,7 +163,7 @@ public class Controller implements Initializable {
     private void selectField(int x, int y) {
         if (selectedField != null) {
             selectedField.setStyle(selectedField.getStyle() +
-                                   "-fx-background-color: none;");
+                                   "-fx-background-color: brown;");
         }
         selectedField = fields[x][y];
         selectedField.setStyle(selectedField.getStyle() +
@@ -177,8 +177,10 @@ public class Controller implements Initializable {
             selectedField.setText(tekst);
             if (!board.checkBoard()) {
                 selectedField.setTextFill(Color.color(1,0,0));
+                saveButton.setDisable(true);
             } else {
                 selectedField.setTextFill(Color.color(0,1,0));
+                saveButton.setDisable(false);
             }
         }
     }
@@ -216,14 +218,12 @@ public class Controller implements Initializable {
                 for (int y = 0; y < 9; y++) {
                     fields[x][y] = new Label();
                     setFieldStyle(x, y);
-                    if (board.get(x, y) != 0) {
-                        fields[x][y].textProperty().bindBidirectional(board.convertField(x, y), new NumberStringConverter());
-                    } else {
+                    fieldBind[x][y] = new BindSudokuForm(board.getField(x, y));
+                    Bindings.bindBidirectional(fields[x][y].textProperty(), fieldBind[x][y], new Converter());
+                    if (board.get(x, y) == 0) {
                         int finalX = x;
                         int finalY = y;
                         fields[x][y].setOnMouseClicked(mouseEvent -> selectField(finalX, finalY));
-                        fieldBind[x][y] = new BindSudokuForm(board.getField(x, y));
-                        Bindings.bindBidirectional(fields[x][y].textProperty(), fieldBind[x][y], new Converter());
                         fields[x][y].setTextFill(Color.color(0,1,0));
                     }
                     pane.add(fields[x][y], x, y);
@@ -239,8 +239,9 @@ public class Controller implements Initializable {
                               "-fx-font-family: 'Comic Sans MS';" +
                               "-fx-border-style: solid;" +
                               "-fx-border-width: 1px;" +
-                              "-fx-border-color: black;");
-        fields[x][y].setTextFill(Color.color(0.25,0,0.80));
+                              "-fx-border-color: black;" +
+                              "-fx-background-color: brown;");
+        fields[x][y].setTextFill(Color.GOLD);
         fields[x][y].setPrefSize(35, 35);
         if((x+1) % 3 == 0 && (y+1) % 3 == 0 && x != 8 && y != 8) {
             fields[x][y].setStyle( fields[x][y].getStyle() +

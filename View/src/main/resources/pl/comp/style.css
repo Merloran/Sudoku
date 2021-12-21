@@ -1,18 +1,22 @@
 .root {
-    -fx-background-color: yellow;
+    -fx-background-image: url("background.jpg");
+}
+
+.radio-button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: "Bell MT";
+}
+
+.button {
+    -fx-padding: 10px 15px;
+    -fx-text-fill: #fff;
+    -fx-background-color: red;
+    -fx-background-radius: 15px;
+    -fx-font-size: 10pt;
+    -fx-font-weight: bold;
 }
 
 #startBut {
-    -fx-background-radius: 20;
+    -fx-min-width: 100px;
 }
-/*
-.label {
-    -fx-alignment: center;
-    -fx-font-weight: bold;
-    -fx-font-size: 12pt;
-    -fx-font-family: 'Comic Sans MS';
-    -fx-border-style: solid;
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-}
-*/

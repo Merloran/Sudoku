@@ -6,12 +6,12 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
+<Pane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
    <children>
       <Button fx:id="startBut" layoutX="230.0" layoutY="200.0" mnemonicParsing="false" onAction="#startGame" prefHeight="65.0" prefWidth="134.0" text="%StartButton" />
-      <RadioButton fx:id="rb1" layoutX="260.0" layoutY="67.0" mnemonicParsing="false" text="%RadioEasy" />
-      <RadioButton fx:id="rb2" layoutX="260.0" layoutY="85.0" mnemonicParsing="false" text="%RadioMedium" />
-      <RadioButton fx:id="rb3" layoutX="260.0" layoutY="103.0" mnemonicParsing="false" text="%RadioHard" />
+      <RadioButton fx:id="rb1" layoutX="260.0" layoutY="287.0" mnemonicParsing="false" text="%RadioEasy" />
+      <RadioButton fx:id="rb2" layoutX="260.0" layoutY="305.0" mnemonicParsing="false" text="%RadioMedium" />
+      <RadioButton fx:id="rb3" layoutX="260.0" layoutY="323.0" mnemonicParsing="false" text="%RadioHard" />
       <ComboBox fx:id="langBox" onAction="#changeLang" layoutX="500.0" layoutY="14.0" prefHeight="10.0" prefWidth="80.0" >
          <items>
             <FXCollections fx:factory="observableArrayList">

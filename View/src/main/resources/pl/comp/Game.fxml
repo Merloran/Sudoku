@@ -4,13 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
+<VBox prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.comp.Controller">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="%FileMenu">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#saveBoard" text="%SaveFile" />
+                  <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveBoard" text="%SaveFile" />
                   <MenuItem mnemonicParsing="false" onAction="#loadBoard" text="%LoadFile" />
                </items>
           </Menu>
@@ -28,21 +28,18 @@
             <Button onAction="#fillField" mnemonicParsing="false" text="8" />
             <Button onAction="#fillField" mnemonicParsing="false" text="9" />
         </buttons>
-         <VBox.margin>
-            <Insets right="200.0" />
-         </VBox.margin>
          <padding>
             <Insets right="20.0" />
          </padding>
       </ButtonBar>
       <GridPane fx:id="pane">
          <padding>
-            <Insets bottom="20.0" left="150.0" right="150.0" top="50.0" />
+            <Insets bottom="10.0" left="150.0" right="150.0" top="80.0" />
          </padding>
       </GridPane>
       <Pane prefHeight="82.0" prefWidth="600.0">
          <children>
-            <Button layoutX="274.0" layoutY="27.0" mnemonicParsing="false" onAction="#backMenu" text="%BackButton" />
+            <Button layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#backMenu" text="%BackButton" />
          </children>
       </Pane>
    </children>
