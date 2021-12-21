@@ -54,24 +54,21 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
         checkBoard();
     }
 
-    private boolean checkBoard() {
+    public boolean checkBoard() {
         for (int x = 0; x < 9; x++) {
-            SudokuPart i = getRow(x);
-            if (!i.verify()) {
+            if (!getRow(x).verify()) {
                 return false;
             }
         }
 
         for (int x = 0; x < 9; x++) {
-            SudokuPart i = getColumn(x);
-            if (!i.verify()) {
+            if (!getColumn(x).verify()) {
                 return false;
             }
         }
 
         for (int x = 0; x < 9; x++) {
-            SudokuPart i = getBox(x / 3, x % 3);
-            if (!i.verify()) {
+            if (!getBox(x / 3, x % 3).verify()) {
                 return false;
             }
         }
@@ -84,6 +81,10 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
             return -1;
         }
         return board[x * 9 + y].getFieldValue();
+    }
+
+    public SudokuField getField(int x, int y) {
+        return board[x * 9 + y];
     }
 
     public void set(int x, int y, int value, boolean notify) {
@@ -118,7 +119,7 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
             return null;
         }
         for (int i = 0; i < 9; i++) {
-            boxes.get(x * 3 + y).setField(i, board[x * 27 + 9 * (i / 3) + y * 3 + y % 3]);
+            boxes.get(x * 3 + y).setField(i, board[x * 27 + 9 * (i / 3) + y * 3 + i % 3]);
         }
         return boxes.get(x * 3 + y);
     }

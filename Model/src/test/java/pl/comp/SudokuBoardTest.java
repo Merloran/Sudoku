@@ -84,6 +84,20 @@ class SudokuBoardTest {
     }
 
     @Test
+    public void testCheckBoard() {
+        board.checkBoard();
+        board.set(0,0,1, false);
+        board.set(0,1,1, false);
+        board.checkBoard();
+        board.set(0,1,0, false);
+        board.set(1,0,1, false);
+        board.checkBoard();
+        board.set(1,0,0, false);
+        board.set(1,1,1, false);
+        board.checkBoard();
+    }
+
+    @Test
     public void testSet() {
         board.set(0, 0, 1, false);
         board.set(-1, 0, 2, false);

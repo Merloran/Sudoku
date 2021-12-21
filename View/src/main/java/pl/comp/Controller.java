@@ -19,7 +19,7 @@
  */
 package pl.comp;
 
-import com.sun.glass.ui.CommonDialogs;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,21 +28,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -51,6 +44,7 @@ public class Controller implements Initializable {
     private Difficulty difficulty;
     private static String lang;
     private static Label[][] fields;
+    private BindSudokuForm[][] fieldBind;
     private Label selectedField;
 
     @FXML
@@ -179,8 +173,13 @@ public class Controller implements Initializable {
     @FXML
     private void fillField(ActionEvent event) {
         if (selectedField != null) {
-            String tekst = event.getSource().toString();
-            selectedField.setText(Character.toString(tekst.charAt(tekst.length() - 2)));
+            String tekst = Character.toString(event.getSource().toString().charAt(event.getSource().toString().length() - 2));
+            selectedField.setText(tekst);
+            if (!board.checkBoard()) {
+                selectedField.setTextFill(Color.color(1,0,0));
+            } else {
+                selectedField.setTextFill(Color.color(0,1,0));
+            }
         }
     }
 
@@ -212,41 +211,46 @@ public class Controller implements Initializable {
 
         if(url.equals(App.class.getResource("Game.fxml"))) {
             fields = new Label[9][9];
+            fieldBind = new BindSudokuForm[9][9];
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
                     fields[x][y] = new Label();
-                    fields[x][y].setStyle("-fx-alignment: center;" +
-                                          "-fx-font-weight: bold;" +
-                                          "-fx-font-size: 12pt;" +
-                                          "-fx-font-family: 'Comic Sans MS';");
-                    fields[x][y].setTextFill(Color.color(0.25,0,0.80));
-                    fields[x][y].setStyle( fields[x][y].getStyle() +
-                                          "-fx-border-style: solid;" +
-                                          "-fx-border-width: 1px;" +
-                                          "-fx-border-color: black;");
-                    fields[x][y].setPrefSize(35, 35);
-
-                    if((x+1) % 3 == 0 && (y+1) % 3 == 0 && x != 8 && y != 8) {
-                        fields[x][y].setStyle( fields[x][y].getStyle() +
-                                "-fx-border-width: 1px 5px 5px 1px;");
-                    } else if((y+1) % 3 == 0 && y != 8) {
-                        fields[x][y].setStyle( fields[x][y].getStyle() +
-                                              "-fx-border-width: 1px 1px 5px 1px;");
-                    } else if((x+1) % 3 == 0 && x != 8) {
-                        fields[x][y].setStyle( fields[x][y].getStyle() +
-                                              "-fx-border-width: 1px 5px 1px 1px;");
-                    }
+                    setFieldStyle(x, y);
                     if (board.get(x, y) != 0) {
                         fields[x][y].textProperty().bindBidirectional(board.convertField(x, y), new NumberStringConverter());
                     } else {
                         int finalX = x;
                         int finalY = y;
                         fields[x][y].setOnMouseClicked(mouseEvent -> selectField(finalX, finalY));
-                        fields[x][y].setTextFill(Color.color(0.25,1,0.80));
+                        fieldBind[x][y] = new BindSudokuForm(board.getField(x, y));
+                        Bindings.bindBidirectional(fields[x][y].textProperty(), fieldBind[x][y], new Converter());
+                        fields[x][y].setTextFill(Color.color(0,1,0));
                     }
                     pane.add(fields[x][y], x, y);
                 }
             }
+        }
+    }
+
+    private void setFieldStyle(int x, int y) {
+        fields[x][y].setStyle("-fx-alignment: center;" +
+                              "-fx-font-weight: bold;" +
+                              "-fx-font-size: 12pt;" +
+                              "-fx-font-family: 'Comic Sans MS';" +
+                              "-fx-border-style: solid;" +
+                              "-fx-border-width: 1px;" +
+                              "-fx-border-color: black;");
+        fields[x][y].setTextFill(Color.color(0.25,0,0.80));
+        fields[x][y].setPrefSize(35, 35);
+        if((x+1) % 3 == 0 && (y+1) % 3 == 0 && x != 8 && y != 8) {
+            fields[x][y].setStyle( fields[x][y].getStyle() +
+                    "-fx-border-width: 1px 5px 5px 1px;");
+        } else if((y+1) % 3 == 0 && y != 8) {
+            fields[x][y].setStyle( fields[x][y].getStyle() +
+                    "-fx-border-width: 1px 1px 5px 1px;");
+        } else if((x+1) % 3 == 0 && x != 8) {
+            fields[x][y].setStyle( fields[x][y].getStyle() +
+                    "-fx-border-width: 1px 5px 1px 1px;");
         }
     }
 }

@@ -36,9 +36,8 @@ class SudokuPartTest {
 
     @Test
     public void testVerify() {
-        board.solveGame();
         board.set(1, 1, 1, false);
-        board.set(1, 2, 1, false);
+        board.set(2, 1, 1, false);
         assertFalse(board.getColumn(1).verify());
     }
 
