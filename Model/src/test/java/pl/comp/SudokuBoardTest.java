@@ -81,7 +81,7 @@ class SudokuBoardTest {
         assertEquals(board.get(0,9),-1);
         board.set(0, 0, 1, false);
         assertEquals(board.get(0,0),1);
-        board.getField(0,0);
+        board.get(0,0);
     }
 
     @Test

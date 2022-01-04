@@ -33,10 +33,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -44,6 +41,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private static SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+    private static SudokuBoard boardCopy = new SudokuBoard(new BacktrackingSudokuSolver());
     private Difficulty difficulty;
     private static String lang;
     private Label[][] fields;
@@ -74,6 +72,11 @@ public class Controller implements Initializable {
         }
         if (rb3.isSelected()) {
             difficulty = new Difficulty(board, Difficulty.LEVEL.HARD);
+        }
+        try {
+            boardCopy = board.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Blad przy klonowaniu!");
         }
 
         ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
@@ -129,38 +132,35 @@ public class Controller implements Initializable {
 
     @FXML
     private void saveBoard(ActionEvent event) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Zapisz Sudoku");
-        fileChooser.getSelectedExtensionFilter();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("txt", "*.txt"));
-        File selectFile = fileChooser.showSaveDialog(null);
-        if(selectFile != null) {
-            SudokuBoardDaoFactory daoFactory = new SudokuBoardDaoFactory();
-            Dao<SudokuBoard> file = daoFactory.getFileDao(selectFile.getAbsolutePath());
-            file.write(board);
-        }
+        SudokuBoardDaoFactory daoFactory = new SudokuBoardDaoFactory();
+        Dao<SudokuBoard> file = daoFactory.getFileDao(".\\sudoku.txt");
+        Dao<SudokuBoard> fileCopy = daoFactory.getFileDao(".\\sudokuCopy.txt");
+        file.write(board);
+        fileCopy.write(boardCopy);
     }
 
     @FXML
     private void loadBoard(ActionEvent event) throws IOException {
+        SudokuBoardDaoFactory daoFactory = new SudokuBoardDaoFactory();
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Wczytaj Sudoku");
-        fileChooser.getSelectedExtensionFilter();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("txt", "*.txt"));
-        File selectFile = fileChooser.showOpenDialog(null);
-        if(selectFile != null) {
-            SudokuBoardDaoFactory daoFactory = new SudokuBoardDaoFactory();
-            Dao<SudokuBoard> file = daoFactory.getFileDao(selectFile.getAbsolutePath());
+        try ( Dao<SudokuBoard> file = daoFactory.getFileDao(".\\sudoku.txt") ) {
             board = file.read();
-
-            ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("Game.fxml"));
-            loader.setResources(bundle);
-            pane.getChildren().clear();
-            initialize(App.class.getResource("Game.fxml"), loader.getResources());
+        } catch (Exception e) {
+            System.out.println("Brak zapisanej gry");
         }
+
+        try ( Dao<SudokuBoard> fileCopy = daoFactory.getFileDao(".\\sudokuCopy.txt") ) {
+            boardCopy = fileCopy.read();
+        } catch (Exception e) {
+            System.out.println("Brak zapisanej gry");
+        }
+
+        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(App.class.getResource("Game.fxml"));
+        loader.setResources(bundle);
+        pane.getChildren().clear();
+        initialize(App.class.getResource("Game.fxml"), loader.getResources());
     }
 
     @FXML
@@ -235,9 +235,9 @@ public class Controller implements Initializable {
                 for (int y = 0; y < 9; y++) {
                     fields[x][y] = new Label();
                     setFieldStyle(x, y);
-                    fieldBind[x][y] = new BindSudokuForm(board.getField(x, y));
+                    fieldBind[x][y] = new BindSudokuForm(board, x, y);
                     Bindings.bindBidirectional(fields[x][y].textProperty(), fieldBind[x][y], new Converter());
-                    if (board.get(x, y) == 0) {
+                    if (boardCopy.get(x, y) == 0) {
                         int finalX = x;
                         int finalY = y;
                         fields[x][y].setOnMouseClicked(mouseEvent -> selectField(finalX, finalY));

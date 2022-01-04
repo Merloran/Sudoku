@@ -56,6 +56,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     @Override
     public void close() {
-        System.out.println("Closing");
+        System.out.println("");
     }
 }

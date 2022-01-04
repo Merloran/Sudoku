@@ -82,10 +82,6 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
         return board[x * 9 + y].getFieldValue();
     }
 
-    public SudokuField getField(int x, int y) {
-        return board[x * 9 + y];
-    }
-
     public void set(int x, int y, int value, boolean notify) {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
             return;

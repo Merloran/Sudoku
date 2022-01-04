@@ -38,6 +38,8 @@ public class App extends Application {
         primaryStage.setTitle("Sudoku");
         primaryStage.resizableProperty().setValue(false);
 
+        Authors listResource = new Authors();
+
         ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale("PL"));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("Form.fxml"));
