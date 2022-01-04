@@ -21,6 +21,7 @@ package pl.comp;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,10 +29,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +46,7 @@ public class Controller implements Initializable {
     private static SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
     private Difficulty difficulty;
     private static String lang;
-    private static Label[][] fields;
+    private Label[][] fields;
     private BindSudokuForm[][] fieldBind;
     private Label selectedField;
 
@@ -161,19 +165,32 @@ public class Controller implements Initializable {
 
     @FXML
     private void selectField(int x, int y) {
-        if (selectedField != null) {
+        if (board.checkBoard()) {
+            if (selectedField != null) {
+                selectedField.setStyle(selectedField.getStyle() +
+                        "-fx-background-color: brown;");
+
+            } else {
+                Stage stage = (Stage) pane.getScene().getWindow();
+                stage.getScene().setOnKeyReleased(keyEvent -> {
+                    if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+                        fillField(keyEvent);
+                    }
+                });
+            }
+            selectedField = fields[x][y];
             selectedField.setStyle(selectedField.getStyle() +
-                                   "-fx-background-color: brown;");
+                    "-fx-background-color: white;");
         }
-        selectedField = fields[x][y];
-        selectedField.setStyle(selectedField.getStyle() +
-                               "-fx-background-color: white;");
     }
 
     @FXML
-    private void fillField(ActionEvent event) {
+    private void fillField(Event event) {
         if (selectedField != null) {
             String tekst = Character.toString(event.getSource().toString().charAt(event.getSource().toString().length() - 2));
+            if (event instanceof KeyEvent) {
+                tekst = "";
+            }
             selectedField.setText(tekst);
             if (!board.checkBoard()) {
                 selectedField.setTextFill(Color.color(1,0,0));

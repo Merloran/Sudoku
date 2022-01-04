@@ -95,8 +95,7 @@ class SudokuPartTest {
         SudokuPart part1 = new SudokuPart();
         SudokuPart part2 = part1.clone();
         assertEquals(part1, part2);
-        SudokuField field = new SudokuField();
-        field.setFieldValue(1, false);
+        field.setFieldValue(2,false);
         part1.setField(1, field);
         assertNotEquals(part1, part2);
     }

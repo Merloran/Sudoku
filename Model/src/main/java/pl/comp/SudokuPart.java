@@ -86,7 +86,11 @@ public class SudokuPart implements Serializable, Cloneable {
     @Override
     public SudokuPart clone() throws CloneNotSupportedException {
         SudokuPart clone = (SudokuPart) super.clone();
-        clone.fields = this.fields.clone();
+        SudokuField[] copy = new SudokuField[9];
+        for (int i = 0; i < copy.length; i++) {
+            copy[i] = fields[i].clone();
+        }
+        clone.fields = copy;
         return clone;
     }
 }

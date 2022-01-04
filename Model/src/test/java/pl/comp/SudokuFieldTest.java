@@ -83,6 +83,7 @@ class SudokuFieldTest {
         assertEquals(field3.compareTo(field2), 3);
         try {
             field1.compareTo(null);
+            fail();
         } catch (NullPointerException e) {
             System.out.println("Got Exception");
         }

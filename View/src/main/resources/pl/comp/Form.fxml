@@ -15,26 +15,18 @@
       <ComboBox fx:id="langBox" onAction="#changeLang" layoutX="500.0" layoutY="14.0" prefHeight="10.0" prefWidth="80.0" >
          <items>
             <FXCollections fx:factory="observableArrayList">
-               <Label text="PL">
+               <Label text="PL" prefWidth="60">
                   <graphic>
-                     <StackPane prefWidth="30">
-                        <ImageView fitHeight="20" preserveRatio="true">
-                           <image>
-                              <Image url="@/pl/comp/pl.jpg" smooth="false" />
-                           </image>
-                        </ImageView>
-                     </StackPane>
+                     <ImageView fitHeight="15" preserveRatio="true">
+                           <Image url="@/pl/comp/pl.jpg"/>
+                     </ImageView>
                   </graphic>
                </Label>
-               <Label text="ENG">
+               <Label text="ENG" prefWidth="60">
                   <graphic>
-                     <StackPane prefWidth="30">
-                        <ImageView fitHeight="20" preserveRatio="true">
-                           <image>
-                              <Image url="@/pl/comp/en.jpg" smooth="false" />
-                           </image>
-                        </ImageView>
-                     </StackPane>
+                     <ImageView fitHeight="15" preserveRatio="true">
+                           <Image url="@/pl/comp/en.jpg"/>
+                     </ImageView>
                   </graphic>
                </Label>
             </FXCollections>
