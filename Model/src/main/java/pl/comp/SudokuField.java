@@ -21,6 +21,7 @@
 package pl.comp;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -28,6 +29,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class SudokuField implements Observable, Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
     private Observer observer;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.Language");
 
     public int getFieldValue() {
         return value;
@@ -35,7 +37,7 @@ public class SudokuField implements Observable, Serializable, Cloneable, Compara
 
     public void setFieldValue(int value, boolean notify) {
         if (value < 0 || value > 9) {
-            return;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         if (notify) {
             notifyObservers();

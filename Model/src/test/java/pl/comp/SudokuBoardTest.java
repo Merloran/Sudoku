@@ -75,10 +75,30 @@ class SudokuBoardTest {
 
     @Test
     public void testGet() {
-        assertEquals(board.get(-1,0),-1);
-        assertEquals(board.get(9,0),-1);
-        assertEquals(board.get(0,-1),-1);
-        assertEquals(board.get(0,9),-1);
+        try {
+            board.get(-1, 0);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.get(9,0);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.get(0,-1);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.get(0,9);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         board.set(0, 0, 1, false);
         assertEquals(board.get(0,0),1);
         board.get(0,0);
@@ -100,33 +120,93 @@ class SudokuBoardTest {
 
     @Test
     public void testSet() {
+        try {
+            board.set(-1, 0, 2, false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.set(9, 0, 4, false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.set(0, -1, 5, false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.set(0, 9, 6, false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         board.set(0, 0, 1, false);
-        board.set(-1, 0, 2, false);
-        board.set(9, 0, 4, false);
-        board.set(0, -1, 5, false);
-        board.set(0, 9, 6, false);
         assertEquals(board.get(0,0), 1);
         board.set(1, 2, 3, true);
     }
 
     @Test
     public void testGetRow() {
-        assertNull(board.getRow(9));
-        assertNull(board.getRow(-1));
+        try {
+            board.getRow(9);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getRow(-1);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
     }
 
     @Test
     public void testGetColumn() {
-        assertNull(board.getColumn(9));
-        assertNull(board.getColumn(-1));
+        try {
+            board.getColumn(9);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getColumn(-1);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
     }
 
     @Test
     public void testGetBox() {
-        assertNull(board.getBox(3, 0));
-        assertNull(board.getBox(0, 3));
-        assertNull(board.getBox(-1, 0));
-        assertNull(board.getBox(0, -1));
+        try {
+            board.getBox(3, 0);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getBox(0, 3);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getBox(-1, 0);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getBox(0, -1);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         assertNotNull(board.getBox(0,2));
     }
 
@@ -170,7 +250,6 @@ class SudokuBoardTest {
 
     @Test
     public void testCloneable() throws CloneNotSupportedException {
-
         SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
         board1.solveGame();
         SudokuBoard board2 = board1.clone();

@@ -24,11 +24,13 @@ package pl.comp;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SudokuBoard implements Observer, Serializable, Cloneable {
+    private static ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.Language");
     private SudokuField[] board = new SudokuField[81];
     private SudokuSolver solver;
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
@@ -77,21 +79,21 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
 
     public int get(int x, int y) {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
-            return -1;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         return board[x * 9 + y].getFieldValue();
     }
 
     public void set(int x, int y, int value, boolean notify) {
         if (x < 0 || x > 8 || y < 0 || y > 8) {
-            return;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         board[x * 9 + y].setFieldValue(value, notify);
     }
 
     public SudokuRow getRow(int y) {
         if (y < 0 || y > 8) {
-            return null;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         for (int i = 0; i < 9; i++) {
             rows.get(y).setField(i, board[y * 9 + i]);
@@ -101,7 +103,7 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
 
     public SudokuColumn getColumn(int x) {
         if (x < 0 || x > 8) {
-            return null;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         for (int i = 0; i < 9; i++) {
             columns.get(x).setField(i, board[x + i * 9]);
@@ -111,7 +113,7 @@ public class SudokuBoard implements Observer, Serializable, Cloneable {
 
     public SudokuBox getBox(int x, int y) {
         if (x < 0 || x > 2 || y < 0 || y > 2) {
-            return null;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         for (int i = 0; i < 9; i++) {
             boxes.get(x * 3 + y).setField(i, board[x * 27 + 9 * (i / 3) + y * 3 + i % 3]);

@@ -45,8 +45,18 @@ class SudokuPartTest {
     public void testSet() {
         field.setFieldValue(1, false);
         board.getRow(1).setField(1, field);
-        board.getRow(1).setField(9, field);
-        board.getRow(1).setField(-1, field);
+        try {
+            board.getRow(1).setField(9, field);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
+        try {
+            board.getRow(1).setField(-1, field);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         SudokuPart part = new SudokuPart();
         SudokuField field = new SudokuField();
         field.setFieldValue(1, false);

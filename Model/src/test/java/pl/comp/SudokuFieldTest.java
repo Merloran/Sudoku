@@ -30,9 +30,19 @@ class SudokuFieldTest {
     @Test
     public void testSet() {
         assertEquals(field.getFieldValue(), 0);
-        field.setFieldValue(-1, false);
+        try {
+            field.setFieldValue(-1, false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         assertEquals(field.getFieldValue(), 0);
-        field.setFieldValue(10,false);
+        try {
+            field.setFieldValue(10,false);
+            fail();
+        } catch (InvalidValueException e) {
+            System.out.println("Exception");
+        }
         assertEquals(field.getFieldValue(), 0);
         field.setFieldValue(1, false);
         assertEquals(field.getFieldValue(), 1);

@@ -21,6 +21,8 @@ package pl.comp;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 class FileSudokuBoardDaoTest {
     SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
 
@@ -29,13 +31,14 @@ class FileSudokuBoardDaoTest {
         try (FileSudokuBoardDao dao = new FileSudokuBoardDao("D:\\plik.txt")) {
             dao.write(board);
             dao.read();
-        } catch (RuntimeException e) {
-            System.out.println("Exception caught read");
+        } catch (DaoException e) {
+            fail();
         }
 
         try (FileSudokuBoardDao dao = new FileSudokuBoardDao("ALFA:\\plik")){
             dao.read();
-        } catch (RuntimeException e) {
+            fail();
+        } catch (DaoException e) {
             System.out.println("Exception caught read");
         }
     }
@@ -45,13 +48,14 @@ class FileSudokuBoardDaoTest {
         try (FileSudokuBoardDao dao = new FileSudokuBoardDao("D:\\plik.txt")) {
             dao.write(board);
             dao.read();
-        } catch (RuntimeException e) {
-            System.out.println("Exception caught read");
+        } catch (DaoException e) {
+            fail();
         }
 
         try (FileSudokuBoardDao dao = new FileSudokuBoardDao("ALFA:\\plik")){
             dao.write(board);
-        } catch (RuntimeException e) {
+            fail();
+        } catch (DaoException e) {
             System.out.println("Exception caught write");
         }
     }

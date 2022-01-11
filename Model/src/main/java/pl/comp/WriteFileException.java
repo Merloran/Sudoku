@@ -20,8 +20,8 @@
 
 package pl.comp;
 
-public interface Dao<T> extends AutoCloseable {
-    T read() throws ReadFileException;
-
-    void write(T obj) throws WriteFileException;
+public class WriteFileException extends DaoException {
+    WriteFileException(Throwable cause) {
+        super(cause);
+    }
 }

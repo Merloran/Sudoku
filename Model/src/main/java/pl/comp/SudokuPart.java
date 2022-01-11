@@ -21,6 +21,7 @@
 package pl.comp;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -28,6 +29,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SudokuPart implements Serializable, Cloneable {
     private SudokuField[] fields = new SudokuField[9];
+    private static ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.Language");
 
     SudokuPart() {
         for (int i = 0; i < 9; i++) {
@@ -52,7 +54,7 @@ public class SudokuPart implements Serializable, Cloneable {
 
     public void setField(int x, SudokuField field) {
         if (x < 0 || x > 8) {
-            return;
+            throw new InvalidValueException(bundle.getString("InvalidValueExceptionInfo"));
         }
         fields[x] = field;
     }
