@@ -24,17 +24,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class App extends Application {
+
+    private static final Logger logger = Logger.getLogger(App.class.getName());
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+        try (FileInputStream input = new FileInputStream("View\\src\\main\\resources\\pl\\comp\\logging.properties")) {
+            LogManager.getLogManager().readConfiguration(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         primaryStage.setTitle("Sudoku");
         primaryStage.resizableProperty().setValue(false);
 
@@ -43,6 +57,7 @@ public class App extends Application {
         ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale("PL"));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("Form.fxml"));
+        logger.info(bundle.getString("StartInfo"));
         loader.setResources(bundle);
         Parent root = loader.load();
 

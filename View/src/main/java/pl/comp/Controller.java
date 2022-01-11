@@ -38,12 +38,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class Controller implements Initializable {
     private static SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
     private static SudokuBoard boardCopy = new SudokuBoard(new BacktrackingSudokuSolver());
+    private static String lang = "PL";
+    private static ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+    private static final Logger logger = Logger.getLogger(App.class.getName());
     private Difficulty difficulty;
-    private static String lang;
     private Label[][] fields;
     private BindSudokuForm[][] fieldBind;
     private Label selectedField;
@@ -66,12 +69,16 @@ public class Controller implements Initializable {
         Stage stage = (Stage) rb1.getScene().getWindow();
         if (rb1.isSelected()) {
             difficulty = new Difficulty(board, Difficulty.LEVEL.EASY);
+            logger.info(bundle.getString("LevelInfo") + bundle.getString("RadioEasy"));
+
         }
         if (rb2.isSelected()) {
             difficulty = new Difficulty(board, Difficulty.LEVEL.MEDIUM);
+            logger.info(bundle.getString("LevelInfo") + bundle.getString("RadioMedium"));
         }
         if (rb3.isSelected()) {
             difficulty = new Difficulty(board, Difficulty.LEVEL.HARD);
+            logger.info(bundle.getString("LevelInfo") + bundle.getString("RadioHard"));
         }
         try {
             boardCopy = board.clone();
@@ -79,10 +86,11 @@ public class Controller implements Initializable {
             System.out.println("Blad przy klonowaniu!");
         }
 
-        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("Game.fxml"));
         loader.setResources(bundle);
+        logger.info(bundle.getString("GameInfo"));
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -102,7 +110,7 @@ public class Controller implements Initializable {
         }
         Stage stage = (Stage) rb1.getScene().getWindow();
 
-        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("Form.fxml"));
         loader.setResources(bundle);
@@ -118,10 +126,11 @@ public class Controller implements Initializable {
     private void backMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage) pane.getScene().getWindow();
 
-        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("Form.fxml"));
         loader.setResources(bundle);
+        logger.info(bundle.getString("BackInfo"));
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -155,7 +164,7 @@ public class Controller implements Initializable {
             System.out.println("Brak zapisanej gry");
         }
 
-        ResourceBundle bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(App.class.getResource("Game.fxml"));
         loader.setResources(bundle);
