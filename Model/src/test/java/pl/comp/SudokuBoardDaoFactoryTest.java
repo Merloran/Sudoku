@@ -36,4 +36,13 @@ class SudokuBoardDaoFactoryTest {
            System.out.println("Exception");
        }
     }
+    @Test
+    void testGetFileDaoDB() {
+       try ( Dao<SudokuBoard> dao = factory.getFileDaoDB("Sudoku1") ) {
+           dao.write(board);
+           assertEquals(dao.read(), board);
+       } catch (Exception e) {
+           System.out.println("Exception");
+       }
+    }
 }
