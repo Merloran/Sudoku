@@ -20,8 +20,19 @@
 
 package pl.comp;
 
+import java.sql.SQLException;
+
 public class SudokuBoardDaoFactory {
     public Dao<SudokuBoard> getFileDao(String fileName) {
         return new FileSudokuBoardDao(fileName);
+    }
+
+    public Dao<SudokuBoard> getFileDaoDB(String fileName) {
+        try (JdbcSudokuBoardDao jdbc = new JdbcSudokuBoardDao(fileName)) {
+            return jdbc;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
