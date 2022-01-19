@@ -18,15 +18,15 @@
       </MenuBar>
       <ButtonBar buttonMinWidth="52.5" prefHeight="34.0" prefWidth="573.0">
         <buttons>
-            <Button onAction="#fillField" mnemonicParsing="false" text="1" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="2" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="3" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="4" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="5" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="6" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="7" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="8" />
-            <Button onAction="#fillField" mnemonicParsing="false" text="9" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="1" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="2" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="3" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="4" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="5" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="6" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="7" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="8" />
+            <Button mnemonicParsing="false" onAction="#fillField" text="9" />
         </buttons>
          <padding>
             <Insets right="20.0" />
@@ -40,6 +40,8 @@
       <Pane prefHeight="82.0" prefWidth="600.0">
          <children>
             <Button layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#backMenu" text="%BackButton" />
+            <ComboBox layoutX="488.0" layoutY="10.0" prefHeight="25.0" prefWidth="98.0" fx:id="loadBox" onAction="#load" />
+            <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="%SaveFile" onAction="#save" />
          </children>
       </Pane>
    </children>

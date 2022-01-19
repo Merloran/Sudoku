@@ -36,6 +36,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -61,6 +62,8 @@ public class Controller implements Initializable {
     private RadioButton rb3;
     @FXML
     private ComboBox<Label> langBox;
+    @FXML
+    private ComboBox loadBox;
     @FXML
     private MenuItem saveButton;
     @FXML
@@ -255,7 +258,64 @@ public class Controller implements Initializable {
                     pane.add(fields[x][y], x, y);
                 }
             }
+            try (JdbcSudokuBoardDao jdbc = new JdbcSudokuBoardDao("")) {
+                ArrayList<String> list;
+                list = jdbc.readAll();
+                loadBox.getItems().addAll(list);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    @FXML
+    private void save(ActionEvent event) throws IOException {
+        TextInputDialog td = new TextInputDialog("");
+        td.setTitle("Zapisz");
+        td.setHeaderText("Podaj nazwę");
+        td.showAndWait();
+
+        try (JdbcSudokuBoardDao jdbc = new JdbcSudokuBoardDao(td.getEditor().getText())) {
+            jdbc.write(board);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Stage stage = (Stage) pane.getScene().getWindow();
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Game.fxml"));
+        loader.setResources(bundle);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+        stage.setScene(scene);
+
+        stage.show();
+    }
+
+    @FXML
+    private void load(ActionEvent event) throws IOException {
+        try (JdbcSudokuBoardDao jdbc = new JdbcSudokuBoardDao(loadBox.getValue().toString())) {
+            board = jdbc.read();
+            boardCopy = jdbc.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Stage stage = (Stage) pane.getScene().getWindow();
+        bundle = ResourceBundle.getBundle("pl.comp.bundles.Language", new Locale(lang));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Game.fxml"));
+        loader.setResources(bundle);
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+        stage.setScene(scene);
+
+        stage.show();
     }
 
     private void setFieldStyle(int x, int y) {

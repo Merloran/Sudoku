@@ -17,45 +17,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package pl.comp;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import org.junit.jupiter.api.Test;
 
-public class FileSudokuBoardDao implements Dao<SudokuBoard> {
+import java.sql.SQLException;
 
-    private String fileName;
+import static org.junit.jupiter.api.Assertions.*;
 
-    public FileSudokuBoardDao(String fileName) {
-        this.fileName = fileName;
-    }
+public class JdbcSudokuBoardDaoTest {
+    SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
 
-    @Override
-    public SudokuBoard read() throws ReadFileException {
-        try (FileInputStream fileInputStream = new FileInputStream(fileName);
-             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-            return (SudokuBoard) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new ReadFileException(e);
+    @Test
+    void testRead() {
+        board.solveGame();
+        try (JdbcSudokuBoardDao test = new JdbcSudokuBoardDao("Sudoku1")) {
+            test.write(board);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void write(SudokuBoard obj) throws WriteFileException {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-            objectOutputStream.writeObject(obj);
-        } catch (IOException e) {
-            throw new WriteFileException(e);
+        try (JdbcSudokuBoardDao test = new JdbcSudokuBoardDao("Sudoku1")) {
+            assertEquals(test.read(), board);
+            test.readAll();
+            test.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void close() {
-
+//        try (JdbcSudokuBoardDao test = new JdbcSudokuBoardDao("'Sudoku1 aaaaa--")) {
+//            assertThrows(SQLException.class, test::read);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try (JdbcSudokuBoardDao test = new JdbcSudokuBoardDao("'Sudoku1 aaaaa--")) {
+//            assertThrows(SQLException.class, () -> test.write(board));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
