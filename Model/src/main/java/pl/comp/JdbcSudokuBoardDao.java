@@ -44,6 +44,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sudoku",
                     "root", "");
             statement = connection.createStatement();
+            connection.setAutoCommit(false);
 
             statement.execute("CREATE TABLE IF NOT EXISTS board"
                                 + "(board_id INTEGER NOT NULL AUTO_INCREMENT,"
@@ -56,6 +57,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                                 + " value INTEGER,"
                                 + " board_id INTEGER NOT NULL,"
                                 + " FOREIGN KEY(board_id) REFERENCES board(board_id))");
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,6 +69,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             result = statement.executeQuery("SELECT * "
                     + "FROM field JOIN board ON field.board_id = board.board_id "
                     + "WHERE board.name LIKE '" + name + "'");
+            connection.commit();
             SudokuBoard b = new SudokuBoard(new BacktrackingSudokuSolver());
 
             while (result.next()) {
@@ -110,6 +113,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                                 + "(x_coord, y_coord, value, board_id)"
                                 + " VALUES "
                                 + text);
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -124,12 +128,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         while (result.next()) {
             list.add(result.getString(1));
         }
+        connection.commit();
         return list;
     }
 
     public void delete() throws SQLException {
         statement.execute("DROP TABLE field;");
         statement.execute("DROP TABLE board;");
+        connection.commit();
     }
 
     @Override
